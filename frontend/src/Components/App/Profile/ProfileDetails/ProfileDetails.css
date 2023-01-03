@@ -1,0 +1,24 @@
+.ProfileDetails {
+  border: 2px rgb(184, 184, 241) solid;
+  padding: 2rem 2rem 1rem 2rem;
+  border-radius: 20px;
+}
+.ProfileDetails > div {
+  color: rgb(47, 47, 154);
+  width: 25rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+}
+.ProfileDetails > div > label {
+  text-decoration: underline;
+}
+.ProfileDetails hr {
+  border-color: rgb(211, 211, 243);
+  border-width: 0.5px;
+  margin-bottom: 1.5rem;
+}
+.ProfileDetails button {
+  margin-top: 2rem;
+}

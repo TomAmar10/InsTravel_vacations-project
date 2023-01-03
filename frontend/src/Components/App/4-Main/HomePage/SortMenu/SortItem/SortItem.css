@@ -1,0 +1,24 @@
+.SortItem {
+  margin: 1rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+.SortItem input {
+  display: none;
+}
+
+.SortItem label {
+  cursor: pointer;
+  background-color: none;
+  border: 1px black solid;
+  border-radius: 20px;
+  padding: 0.3rem 1rem;
+}
+.SortItem input:checked + label {
+  background-color: white;
+}
+
+.SortItem label:hover {
+  background-color: rgb(248, 248, 253, 0.4);
+}

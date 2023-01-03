@@ -1,0 +1,61 @@
+.VacationForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.VacationForm > form {
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 20px 20px 10px;
+  background-color: rgb(247, 246, 253);
+  margin-right: 5rem;
+}
+.VacationForm h2 {
+  text-align: center;
+  font-size: 1.7rem;
+  margin-top: 0;
+}
+.VacationForm .error-message {
+  color: red;
+  margin: 0;
+}
+
+.VacationForm form > div {
+  padding: 0.4rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.VacationForm input {
+  border-radius: 5px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  color: rgb(44, 44, 44);
+  border: 1px black solid;
+  width: 18rem;
+  margin-left: 1rem;
+  border: none;
+  outline: 0.5px black solid;
+}
+.VacationForm input:focus {
+  border: none;
+  outline: 1px rgb(47, 47, 154) solid;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
+}
+
+form > div:last-child {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.VacationForm form span {
+  font-size: 0.8rem;
+  text-align: left;
+  position: absolute;
+  margin-bottom: 3rem;
+  margin-left: 8rem;
+}

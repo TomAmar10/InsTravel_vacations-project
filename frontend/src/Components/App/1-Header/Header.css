@@ -1,0 +1,69 @@
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6rem;
+  background-color: rgb(47, 47, 154);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(232, 232, 250);
+  z-index: 1;
+  font-family: cursive;
+}
+.Header > div {
+  display: flex;
+  align-items: center;
+}
+.header-right-side {
+  justify-content: end;
+  width: 100%;
+  margin: 0 5rem 0 0;
+}
+.header-left-side {
+  margin: 0 0 0 5rem;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.logo-area img {
+  width: 2.6rem;
+  height: 2.7rem;
+  transition: width 0.3s;
+}
+.logo-area:hover img {
+  width: 2.8rem;
+  transition: width 0.3s;
+}
+.logo-area h3 {
+  margin: 0;
+  font-size: 2.5rem;
+  transition: font-size 0.3s;
+}
+.logo-area:hover h3 {
+  font-size: 2.6rem;
+  transition: font-size 0.3s;
+}
+
+.header-padding {
+  height: 4rem;
+}
+
+@media only screen and (max-width: 1000px) {
+  .Header {
+    height: 8rem;
+    flex-direction: column;
+  }
+  .header-padding {
+    height: 6rem;
+  }
+  .header-left-side {
+    margin: 0;
+  }
+}

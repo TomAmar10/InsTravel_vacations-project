@@ -1,0 +1,9 @@
+.HomeNavigator {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  align-items: center;
+}
+.HomeNavigator h2 {
+  font-size: 2rem;
+}

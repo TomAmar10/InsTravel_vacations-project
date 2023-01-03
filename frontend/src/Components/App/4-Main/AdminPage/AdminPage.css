@@ -1,0 +1,36 @@
+.AdminPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4rem;
+  animation: item-appear 1s ease-out forwards;
+}
+.AdminPage h1 {
+  font-size: 2.5rem;
+}
+
+.bar-chart-container {
+  margin-bottom: 4rem;
+}
+
+.bar-chart-container label {
+  font-size: 1.2rem;
+  text-decoration: underline;
+  margin-bottom: 1.5rem;
+}
+
+.admin-form-container {
+  animation: item-appear 1s ease-out forwards;
+}
+
+@keyframes item-appear {
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

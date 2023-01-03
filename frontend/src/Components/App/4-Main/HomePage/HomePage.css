@@ -1,0 +1,36 @@
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+  margin-top: -3rem;
+}
+
+.homepage-main-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.HomePage .vacations-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 20rem;
+  width: 80%;
+}
+
+.pagination-area {
+  width: 60%;
+  height: 2rem;
+  display: flex;
+  margin: 1rem;
+}
+
+.home-navigator {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  align-items: center;
+}
