@@ -2,9 +2,12 @@ import axios from "axios";
 import UserModel from "../models/user-model";
 
 class Service {
+  private userAddress = "http://localhost:4500/api/user";
+  private authAddress = "http://localhost:4500/api/auth";
+
   public getAllUsers = async (): Promise<UserModel[]> => {
     try {
-      const response = await axios.get("http://localhost:4500/api/user/all");
+      const response = await axios.get(`${this.userAddress}/all`);
       return response.data;
     } catch (err: any) {
       return err.response.data.msg;
@@ -13,9 +16,7 @@ class Service {
 
   public getAllUsernames = async (): Promise<any> => {
     try {
-      const response = await axios.get(
-        "http://localhost:4500/api/user/all/usernames"
-      );
+      const response = await axios.get(`${this.userAddress}/all/usernames`);
       return response;
     } catch (err: any) {
       return err.response.data.msg;
@@ -24,7 +25,7 @@ class Service {
 
   public getUser = async (id: number): Promise<UserModel> => {
     try {
-      const response = await axios.get(`http://localhost:4500/api/user/${id}`);
+      const response = await axios.get(`${this.userAddress}/${id}`);
       return response.data;
     } catch (err: any) {
       return err.response.data.msg;
@@ -33,10 +34,7 @@ class Service {
 
   public login = async (userCred: UserModel): Promise<any> => {
     try {
-      const response = await axios.post(
-        `http://localhost:4500/api/auth/login`,
-        userCred
-      );
+      const response = await axios.post(`${this.authAddress}/login`, userCred);
       return response.headers.authorization;
     } catch (err: any) {
       return err.response.data;
@@ -45,11 +43,9 @@ class Service {
 
   public register = async (user: UserModel): Promise<any> => {
     try {
-      const response = await axios.post(
-        "http://localhost:4500/api/auth/register",
-        user,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.post(`${this.authAddress}/register`, user, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return response.headers.authorization;
     } catch (err: any) {
       return err.response.data;
@@ -58,7 +54,7 @@ class Service {
 
   public deleteUser = async (details: UserModel, token: string) => {
     try {
-      await axios.post("http://localhost:4500/api/auth/delete", details, {
+      await axios.post(`${this.authAddress}/delete`, details, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -71,7 +67,7 @@ class Service {
   public updateUser = async (user: UserModel) => {
     try {
       const response = await axios.put(
-        `http://localhost:4500/api/auth/id/${user.id}`,
+        `${this.authAddress}/update/${user.id}`,
         user,
         {
           headers: {
@@ -88,7 +84,7 @@ class Service {
   public updateUserProfile = async (user: any) => {
     try {
       const response = await axios.put(
-        `http://localhost:4500/api/auth/changeprofile/${user.id}`,
+        `${this.authAddress}/changeprofile/${user.id}`,
         user,
         {
           headers: {
@@ -97,23 +93,6 @@ class Service {
           },
         }
       );
-      return response;
-    } catch (err: any) {
-      return err.response;
-    }
-  };
-
-  public refreshToken = async (user: any) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:4500/api/auth/refresh-token`,
-        {
-          headers: {
-            authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      console.log(response);
       return response;
     } catch (err: any) {
       return err.response;

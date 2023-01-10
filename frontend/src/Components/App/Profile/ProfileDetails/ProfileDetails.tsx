@@ -10,17 +10,17 @@ function ProfileDetails(): JSX.Element {
     <React.Fragment>
       <div className="ProfileDetails flow">
         <div>
-          <label>first name: </label>
+          <label>First Name: </label>
           <span>{user?.first_name}</span>
         </div>
         <hr />
         <div>
-          <label>last name: </label>
+          <label>Last Name: </label>
           <span>{user?.last_name}</span>
         </div>
         <hr />
         <div>
-          <label>user name: </label>
+          <label>User Name: </label>
           <span>{user?.user_name}</span>
         </div>
         <NavLink to={"/user/profile/edit"} className="navLink">

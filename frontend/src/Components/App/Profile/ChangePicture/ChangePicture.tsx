@@ -60,33 +60,35 @@ function ChangePicture(): JSX.Element {
   };
 
   return (
-    <div className="ChangePicture flow">
-      <ArrowCircleLeftIcon
-        onClick={() => navigate("/user/profile")}
-        sx={{
-          color: "rgb(47, 47, 154)",
-          fontSize: "3rem",
-          ":hover": { fontSize: "3.1rem" },
-        }}
-        className="change-profile-arrow-back"
-      />
-      <div className="image-to-show-bg">
-        <img className="profile-image-change" src={imgToShow} alt="" />
-        {!isEmpty && (
-          <img
-            src={require("../../../../images/delete.png")}
-            className="remove-profile-btn"
-            onClick={removeImage}
-          />
-        )}
-      </div>
-      {isEmpty && <span className="no-image-span">no image</span>}
-      <form>
-        <input type="file" onChange={changePicture} />
-        <div>
-          <Button value="update" onClick={submitChange} />
+    <div className="change-picture-container flow">
+      <div className="ChangePicture">
+        <ArrowCircleLeftIcon
+          onClick={() => navigate("/user/profile")}
+          sx={{
+            color: "rgb(47, 47, 154)",
+            fontSize: "3rem",
+            ":hover": { fontSize: "3.1rem" },
+          }}
+          className="change-profile-arrow-back"
+        />
+        <div className="image-to-show-bg">
+          <img className="profile-image-change" src={imgToShow} alt="" />
+          {!isEmpty && (
+            <img
+              src={require("../../../../images/delete.png")}
+              className="remove-profile-btn"
+              onClick={removeImage}
+            />
+          )}
         </div>
-      </form>
+        {isEmpty && <span className="no-image-span">no image</span>}
+        <form>
+          <input type="file" onChange={changePicture} />
+          <div>
+            <Button value="update" onClick={submitChange} />
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

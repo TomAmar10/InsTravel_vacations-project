@@ -90,3 +90,66 @@
   display: flex;
   justify-content: center;
 }
+
+.vacation-follow-btn {
+  position: absolute;
+  margin-left: 14.5rem;
+  margin-top: 0.5rem;
+}
+
+@media only screen and (max-width: 340px) {
+  .VacationBox,
+  .VacationBox .destination-img,
+  .vacation-description {
+    width: 18rem;
+  }
+  .vacation-follow-btn {
+    margin-left: 12.5rem;
+  }
+  .edit-img,
+  .delete-img {
+    margin-left: 15.5rem;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .VacationBox,
+  .VacationBox .destination-img,
+  .vacation-description {
+    width: 17rem;
+  }
+  .vacation-follow-btn {
+    margin-left: 11.5rem;
+  }
+  .edit-img,
+  .delete-img {
+    margin-left: 14.5rem;
+  }
+}
+@media only screen and (max-width: 275px) {
+  .VacationBox,
+  .VacationBox .destination-img,
+  .vacation-description {
+    width: 15rem;
+    font-size: 0.8rem;
+  }
+  .VacationBox {
+    height: 17rem;
+  }
+  .vacation-dates {
+    margin-top: 0.5rem;
+  }
+  .vacation-follow-btn {
+    margin-left: 9.5rem;
+  }
+  .edit-img,
+  .delete-img {
+    margin-left: 12.5rem;
+  }
+  .top-vacation-box h3 {
+    font-size: 1rem;
+  }
+  .vacation-price {
+    font-size: 1rem;
+  }
+}

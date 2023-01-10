@@ -35,43 +35,40 @@ function SearchBar(props: any) {
   const searchBtnStyle = {
     boxShadow: "rgba(241, 240, 240, 0.45) 0px 2px 10px",
     color: "blue",
-    width: isVisible ? "2.8rem" : "3.1rem",
-    height: isVisible ? "2.8rem" : "3.1rem",
+    width: isVisible ? "2.8rem" : "3.5rem",
+    height: isVisible ? "2.8rem" : "3.5rem",
     backgroundColor: "rgb(232, 232, 250)",
     transition: "width 0.3s, height 0.3s",
-    marginRight: "0.2rem",
     ":hover": {
       boxShadow: "rgba(241, 240, 240, 0.45) 0px 4px 15px",
       backgroundColor: "rgb(220, 232, 250)",
-      width: isVisible ? "2.9rem" : "3.4rem",
-      height: isVisible ? "2.9rem" : "3.4rem",
+      width: isVisible ? "2.9rem" : "3.6rem",
+      height: isVisible ? "2.9rem" : "3.6rem",
       transition: "width 0.3s, height 0.3s",
     },
   };
 
   return (
-    <React.Fragment>
-      <Paper
-        component="form"
-        sx={{ borderRadius: "30px" }}
-        className={isVisible ? "search-bar-form-open" : "search-bar-form-close"}
-        onSubmit={(e) => e.preventDefault()}
-      >
-        {isVisible && (
-          <ClearIcon className="search-delete-btn" onClick={closeSearchBar} />
-        )}
-        <InputBase
-          onChange={changeInput}
-          onBlur={closeSearchBar}
-          value={userValue}
-          sx={{ ml: 3, flex: 1, fontSize: 20 }}
-          placeholder="find your vacation..."
-        />
-        <IconButton sx={searchBtnStyle} onClick={handleSearchClick}>
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-    </React.Fragment>
+    <Paper
+      component="form"
+      sx={{ borderRadius: "30px" }}
+      className={isVisible ? "search-bar-form-open" : "search-bar-form-close"}
+      onSubmit={(e) => e.preventDefault()}
+    >
+      {isVisible && (
+        <ClearIcon className="search-delete-btn" onClick={closeSearchBar} />
+      )}
+      <InputBase
+        onChange={changeInput}
+        onBlur={closeSearchBar}
+        value={userValue}
+        sx={{ ml: 3, flex: 1, fontSize: 20 }}
+        placeholder="find your vacation..."
+      />
+      <IconButton sx={searchBtnStyle} onClick={handleSearchClick}>
+        <SearchIcon />
+      </IconButton>
+    </Paper>
   );
 }
 

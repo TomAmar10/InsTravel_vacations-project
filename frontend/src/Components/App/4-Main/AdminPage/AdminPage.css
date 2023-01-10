@@ -2,21 +2,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 4rem;
   animation: item-appear 1s ease-out forwards;
 }
 .AdminPage h1 {
   font-size: 2.5rem;
 }
-
-.bar-chart-container {
-  margin-bottom: 4rem;
+.label-dest {
+  text-decoration: underline;
+  font-weight: bold;
 }
 
-.bar-chart-container label {
-  font-size: 1.2rem;
-  text-decoration: underline;
-  margin-bottom: 1.5rem;
+.bar-chart-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2.5rem;
+  width: 100%;
+}
+
+.bar-chart-background {
+  width: 80%;
+  margin-bottom: 4rem;
 }
 
 .admin-form-container {
@@ -32,5 +41,23 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .bar-chart-container {
+    width: 100%;
+  }
+  .bar-chart-background {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .bar-chart-container {
+    margin-left: -1.3rem;
+  }
+  .bar-chart-background {
+    width: 100%;
   }
 }

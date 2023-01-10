@@ -1,7 +1,4 @@
 .FollowButton {
-  position: absolute;
-  margin-left: 14.5rem;
-  margin-top: 0.5rem;
   border-radius: 10px;
   border: 1px rgb(41, 51, 136) solid;
   color: rgb(232, 232, 250);

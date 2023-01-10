@@ -9,6 +9,15 @@ import { userActions } from "../../../store/user-state";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { modalActions, ModalType } from "../../../store/modal-state";
 import "./Login.css";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface Props {
   deletePage?: boolean;
@@ -18,12 +27,13 @@ interface Props {
 function Login(props: Props): JSX.Element {
   const modalType = useSelector((state: any) => state.modal.modalType);
   const isModalVisible = useSelector((state: any) => state.modal.isVisible);
+  const [showPass, setShowPass] = useState<boolean>(false);
   const user = useSelector((state: any) => state.user.user);
   const dispatch = useDispatch();
   const { register, handleSubmit, setFocus } = useForm<UserModel>();
   const [header, setHeader] = useState<string>("Welcome Back!");
   const [message, setMessage] = useState<string>("please enter your details");
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +61,7 @@ function Login(props: Props): JSX.Element {
   };
 
   const submitForm = async (details: UserModel) => {
-    props.deletePage ? deleteAccount(details) : loginUser(details);
+    props.deletePage ? await deleteAccount(details) : loginUser(details);
   };
 
   const loginUser = (details: UserModel) => {
@@ -77,6 +87,7 @@ function Login(props: Props): JSX.Element {
       else dispatch(modalActions.showModal(ModalType.EXPIRED));
       return;
     }
+    dispatch(userActions.logout());
     navigate("/login");
   };
 
@@ -93,7 +104,11 @@ function Login(props: Props): JSX.Element {
           className="delete-form-arrow-back"
         />
       )}
-      <form className="login-form" onSubmit={handleSubmit(submitForm)}>
+      <form
+        className="login-form"
+        onSubmit={handleSubmit(submitForm)}
+        autoComplete="off"
+      >
         {isModalVisible && (
           <img
             src={require("../../../images/close-btn.png")}
@@ -103,27 +118,42 @@ function Login(props: Props): JSX.Element {
           />
         )}
         <h2>{header}</h2>
-        <span>{error.length > 0 ? error : message}</span>
+        <span style={{ color: error ? "red" : "black" }}>
+          {error ? error : message}
+        </span>
         <div>
-          <label>username:</label>
-          <input
-            type="text"
-            onFocus={() => setError("")}
-            style={{ outline: error.length < 1 ? "" : "1px red solid" }}
-            {...register("user_name")}
+          <TextField
             required
+            onFocus={() => setError(undefined)}
+            label="user name"
+            size="small"
+            fullWidth
+            {...register("user_name")}
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>
         <div>
-          <label>password:</label>
-          <input
-            type="password"
-            onFocus={() => setError("")}
-            style={{ outline: error.length < 1 ? "" : "1px red solid" }}
-            {...register("password")}
-            minLength={6}
-            required
-          />
+          <FormControl fullWidth required size="small">
+            <InputLabel>password</InputLabel>
+            <OutlinedInput
+              onFocus={() => setError(undefined)}
+              type={showPass ? "text" : "password"}
+              {...register("password")}
+              inputProps={{ minLength: 6, maxLength: 20 }}
+              fullWidth
+              label="password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPass((prev) => !prev)}
+                    edge="end"
+                  >
+                    {showPass ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
         </div>
         <Button
           value={props.deletePage ? "delete" : "login"}

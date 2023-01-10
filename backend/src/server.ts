@@ -1,13 +1,13 @@
 import cors from "cors";
-import express, { Request, Response, NextFunction } from "express";
-import errorModel from "./1-models/error-model";
-import VacationRouter from "./4-controllers/vacation-controller";
-import UserRouter from "./4-controllers/user-controller";
-import AuthRouter from "./4-controllers/auth-controller";
-import FollowRouter from "./4-controllers/follow-controller";
-import catchAll from "./5-middleware/catchAll";
 import dotenv from "dotenv";
-import mySql_init from "./6-utils/init";
+import express, { Request, Response, NextFunction } from "express";
+import errorModel from "./models/error-model";
+import VacationRouter from "./controllers/vacation-controller";
+import UserRouter from "./controllers/user-controller";
+import AuthRouter from "./controllers/auth-controller";
+import FollowRouter from "./controllers/follow-controller";
+import catchAll from "./middleware/catchAll";
+import mySql_init from "./utils/init";
 import fileUpload from "express-fileupload";
 
 dotenv.config();

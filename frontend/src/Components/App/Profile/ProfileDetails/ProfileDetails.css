@@ -1,12 +1,12 @@
 .ProfileDetails {
-  border: 2px rgb(184, 184, 241) solid;
+  border: 2px black solid;
   padding: 2rem 2rem 1rem 2rem;
-  border-radius: 20px;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  width: 25rem;
 }
 .ProfileDetails > div {
-  color: rgb(47, 47, 154);
-  width: 25rem;
-  font-size: 1.5rem;
+  color: black;
   display: flex;
   justify-content: space-between;
   text-align: left;
@@ -21,4 +21,18 @@
 }
 .ProfileDetails button {
   margin-top: 2rem;
+}
+
+@media only screen and (max-width: 750px) {
+  .ProfileDetails {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+  .ProfileDetails {
+    width: 22rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 435px) {
 }

@@ -1,18 +1,19 @@
+.change-picture-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .ChangePicture {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem 5rem;
+  padding: 1rem 1rem;
+  width: 25rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 20px 20px 10px;
   border-radius: 10px;
   background-color: rgb(247, 246, 253);
-}
-
-.profile-image-change {
-  width: 17rem;
-  height: 100%;
-  border-radius: 10px;
 }
 
 .ChangePicture form {
@@ -53,13 +54,18 @@
   background-color: rgb(160, 160, 218);
   border-radius: 50%;
   margin-bottom: 1rem;
-  height: 17rem;
+  height: 18rem;
+}
+.profile-image-change {
+  width: 15rem;
+  height: 18rem;
+  border-radius: 10px;
 }
 
 .change-profile-arrow-back {
   position: absolute;
   margin-left: -23.5rem;
-  margin-top: -26rem;
+  margin-top: -25rem;
   cursor: pointer;
 }
 
@@ -78,4 +84,54 @@
 
 .no-image-span {
   font-size: 0.8rem;
+}
+
+@media only screen and (max-width: 1100px) {
+  .ChangePicture {
+    padding: 1rem 1rem;
+    width: 22rem;
+  }
+  .change-profile-arrow-back {
+    margin-left: -20.5rem;
+    margin-top: -25rem;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 870px) {
+  .image-to-show-bg {
+    height: 14.5rem;
+  }
+  .profile-image-change {
+    width: 13rem;
+    height: 14.5rem;
+    border-radius: 10px;
+  }
+  .change-profile-arrow-back {
+    margin-left: -20.5rem;
+    margin-top: -21rem;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .ChangePicture {
+    width: 20rem;
+  }
+  .image-to-show-bg {
+    height: 14.5rem;
+  }
+  .profile-image-change {
+    width: 12rem;
+    height: 14.5rem;
+  }
+  .change-profile-arrow-back {
+    margin-left: -18.5rem;
+    margin-top: -21.5rem;
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .change-profile-arrow-back {
+    visibility: hidden;
+  }
 }

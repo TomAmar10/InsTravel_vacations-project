@@ -8,13 +8,24 @@ import { userActions } from "../../../../store/user-state";
 import Button from "../../../UI/Button/Button";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { modalActions, ModalType } from "../../../../store/modal-state";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import "./ProfileEdit.css";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function ProfileEdit(): JSX.Element {
   interface UserEdit extends UserModel {
     prevPass: string;
   }
   const dispatch = useDispatch();
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const [showNewPass, setShowNewPass] = useState<boolean>(false);
   const user = useSelector((state: any) => state.user.user);
   const { register, handleSubmit, reset } = useForm<UserEdit>();
   const [allUsernames, setAllUsernames] = useState<{}[]>([]);
@@ -61,78 +72,93 @@ function ProfileEdit(): JSX.Element {
 
   return (
     <div className="ProfileEdit flow">
-      <form className="profile-edit-form" onSubmit={handleSubmit(submitForm)}>
+      <form
+        className="profile-edit-form"
+        onSubmit={handleSubmit(submitForm)}
+        autoComplete="off"
+      >
         <ArrowCircleLeftIcon
           onClick={() => navigate("/user/profile")}
-          sx={{
-            color: "rgb(47, 47, 154)",
-            fontSize: "3rem",
-            ":hover": { fontSize: "3.1rem" },
-          }}
+          sx={{ fontSize: "3rem" }}
           className="edit-form-arrow-back"
         />
         <h3>Edit your profile</h3>
         {error.length > 0 && <p style={{ color: "red" }}>{error}</p>}
         <div>
-          <label>first name:</label>
-          <input
-            type="text"
+          <TextField
             required
-            minLength={2}
+            label="first name"
+            size="small"
+            fullWidth
             {...register("first_name")}
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>
         <div>
-          <label>last name:</label>
-          <input
-            type="text"
+          <TextField
             required
-            minLength={2}
+            label="last name"
             {...register("last_name")}
+            size="small"
+            fullWidth
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>
         <div>
-          <label>username:</label>
-          <div className="edit-input-area">
-            {!isValidUsername && <span>already exist... </span>}
-            <input
-              type="text"
-              required
-              onKeyDown={() => setIsValidUsername(true)}
-              style={{
-                outline: isValidUsername ? "" : "1px red solid",
-              }}
-              minLength={2}
-              {...register("user_name")}
-            />
-          </div>
-        </div>
-        <div>
-          <label>password:</label>
-          <div className="edit-input-area">
-            {!isValidPass && <span>wrong password... </span>}
-            <input
-              type="password"
-              placeholder="previous password"
-              minLength={6}
-              onKeyDown={() => setIsValidPass(true)}
-              style={{
-                outline: isValidPass ? "" : "1px red solid",
-              }}
-              {...register("prevPass")}
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <label>new password:</label>
-          <input
-            type="password"
-            minLength={6}
-            placeholder={"new password"}
-            {...register("password")}
+          <TextField
             required
+            label="user name"
+            size="small"
+            fullWidth
+            {...register("user_name")}
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
+        </div>
+        <div>
+          <FormControl fullWidth required size="small">
+            <InputLabel>previous password</InputLabel>
+            <OutlinedInput
+              type={showPass ? "text" : "password"}
+              {...register("prevPass")}
+              inputProps={{ minLength: 6, maxLength: 20 }}
+              fullWidth
+              label="previous password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPass((prev) => !prev)}
+                    edge="end"
+                    sx={{ marginBottom: 4 }}
+                  >
+                    {showPass ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl fullWidth required size="small">
+            <InputLabel>new password</InputLabel>
+            <OutlinedInput
+              type={showNewPass ? "text" : "password"}
+              {...register("password")}
+              inputProps={{ minLength: 6, maxLength: 20 }}
+              fullWidth
+              label="new password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowNewPass((prev) => !prev)}
+                    edge="end"
+                    sx={{ marginBottom: 4 }}
+                  >
+                    {showNewPass ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
         </div>
         <Button value="save" />
       </form>

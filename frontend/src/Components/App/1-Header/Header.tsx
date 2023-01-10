@@ -8,7 +8,6 @@ import HeaderMenu from "./HeaderMenu/HeaderMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { vacationActions as actions } from "../../../store/vacation-state";
 import { categories } from "../../../store/vacation-state";
-import VacationModel from "../../../models/vacation-model";
 import service from "../../../services/vacation-service";
 import "./Header.css";
 
@@ -17,9 +16,6 @@ function Header(): JSX.Element {
   const user = useSelector((state: any) => state.user.user);
   const currURL = document.URL.substring(document.URL.lastIndexOf("/") + 1);
   const navigate = useNavigate();
-  const vacations: VacationModel[] = useSelector(
-    (state: any) => state.vacations.vacations
-  );
 
   const searchVacation = async (i: string) => {
     const userInput = upperCaseVacation(i);
@@ -61,30 +57,28 @@ function Header(): JSX.Element {
   return (
     <React.Fragment>
       <div className="Header">
-        <div className="header-left-side">
-          <div className="logo-area">
-            <img
-              src={require("../../../images/icon1.png")}
-              alt=""
-              onClick={logoClick}
-              className="hovered-logo"
-            />
-            <h3 onClick={logoClick}>InsTravel</h3>
+        <div className="left-right-container">
+          <div className="header-left-side">
+            <div className="logo-area">
+              <img
+                src={require("../../../images/icon1.png")}
+                alt=""
+                onClick={logoClick}
+                className="hovered-logo"
+              />
+              <h1 onClick={logoClick}>InsTravel</h1>
+            </div>
           </div>
-        </div>
-        <div className="header-right-side">
-          <SearchBar onSearch={searchVacation} />
-          {user.role !== Role.Guest ? (
-            <HeaderMenu user={user} />
-          ) : currURL === "login" ? (
-            <NavLink to={"/register"}>
-              <Button value="register" />
-            </NavLink>
-          ) : (
-            <NavLink to={"/login"}>
-              <Button value="login" />
-            </NavLink>
-          )}
+          <div className="header-right-side">
+            <SearchBar onSearch={searchVacation} />
+            {user.role !== Role.Guest ? (
+              <HeaderMenu user={user} />
+            ) : (
+              <NavLink to={currURL === "login" ? "/register" : "/login"}>
+                <Button value={currURL === "login" ? "register" : "login"} />
+              </NavLink>
+            )}
+          </div>
         </div>
       </div>
       <div className="header-padding"></div>

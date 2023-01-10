@@ -38,15 +38,17 @@ function Profile(): JSX.Element {
         </div>
         <div className="profile-menu-options">
           <h2>{`${user?.first_name} ${user?.last_name}`}</h2>
-          <NavLink className="profile-nav" to="">
-            Profile
-          </NavLink>
-          <NavLink className="profile-nav" to="edit">
-            Edit Account
-          </NavLink>
-          <NavLink className="profile-nav" to="delete">
-            Delete Account
-          </NavLink>
+          <div>
+            <NavLink className="profile-nav" to="">
+              My Profile
+            </NavLink>
+            <NavLink className="profile-nav" to="edit">
+              Edit Account
+            </NavLink>
+            <NavLink className="profile-nav" to="delete">
+              Delete Account
+            </NavLink>
+          </div>
         </div>
       </div>
       <div className="profile-details-container">

@@ -1,8 +1,6 @@
 .HomeNavigator {
-  width: 80%;
-  display: grid;
-  grid-template-columns: 25% 50% 25%;
-  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .HomeNavigator h2 {
   font-size: 2rem;

@@ -1,4 +1,13 @@
-import { useEffect, useState } from "react";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserModel from "../../../models/user-model";
 import { useForm } from "react-hook-form";
@@ -14,11 +23,14 @@ interface registerUser extends UserModel {
 function Register(): JSX.Element {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const { register, handleSubmit, setFocus } = useForm<registerUser>();
   const [allUsernames, setAllUsernames] = useState<{}[]>([]);
-  const [isValidUsername, setIsValidUsername] = useState<boolean>(true);
-  const [isValidPass, setIsValidPass] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const [isValidUsername, setIsValidUsername] = useState(true);
+  const [isValidPass, setIsValidPass] = useState(true);
+  const [error, setError] = useState<string>();
+  const [userImage, setUserImage] = useState<any>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,12 +41,12 @@ function Register(): JSX.Element {
     }
     service
       .getAllUsernames()
-      .then((res) => setAllUsernames(res))
+      .then((res) => setAllUsernames(res.data))
       .catch((err) => setError("something went wrong, please try again later"));
   }, []);
 
   const submitForm = (newUser: registerUser) => {
-    if (error.length > 0) return;
+    if (error) return;
     if (newUser.password !== newUser.confirmPass) {
       setIsValidPass(false);
       return;
@@ -46,7 +58,7 @@ function Register(): JSX.Element {
     }
     newUser.first_name = upperCaseFirstLetter(newUser.first_name);
     newUser.last_name = upperCaseFirstLetter(newUser.last_name);
-    newUser.image = newUser.image[0];
+    if (userImage) newUser.image = userImage[0];
     service
       .register(newUser)
       .then((res) => {
@@ -67,66 +79,97 @@ function Register(): JSX.Element {
     <div className="Register">
       <form className="register-form" onSubmit={handleSubmit(submitForm)}>
         <h2>Hello !</h2>
-        {error.length > 0 && <h4 style={{ color: "red" }}>{error}</h4>}
+        {error && <h4 style={{ color: "red" }}>{error}</h4>}
         <div>
-          <label>* first name:</label>
-          <input
-            type="text"
+          <TextField
             required
-            minLength={2}
+            label="first name"
+            size="small"
+            fullWidth
             {...register("first_name")}
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>
         <div>
-          <label>* last name:</label>
-          <input
-            type="text"
+          <TextField
             required
-            minLength={2}
+            label="last name"
             {...register("last_name")}
+            size="small"
+            fullWidth
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>
-        <div>
-          <label>* username:</label>
-          <div className="register-input-area">
-            {!isValidUsername && <span>already exist... </span>}
-            <input
-              type="text"
-              minLength={2}
-              style={{ borderColor: isValidUsername ? "black" : "red" }}
-              onFocus={() => setIsValidUsername(true)}
-              required
-              {...register("user_name")}
-            />
-          </div>
-        </div>
-        <div>
-          <label>* password:</label>
-          <input
-            type="password"
-            minLength={6}
-            pattern="(?=.*\d)(?=.*[a-z]).{6,}"
+        <div className="register-input-area">
+          {!isValidUsername && <p>already exist... </p>}
+          <TextField
             required
-            {...register("password")}
+            label="user name"
+            size="small"
+            fullWidth
+            {...register("user_name")}
+            onFocus={() => setIsValidUsername(true)}
+            inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>
         <div>
-          <label>* confirm:</label>
-          <div className="register-input-area">
-            {!isValidPass && <span>must be the same as password... </span>}
-            <input
-              type="password"
-              minLength={6}
-              {...register("confirmPass")}
-              style={{ borderColor: isValidPass ? "black" : "red" }}
-              onKeyDown={() => setIsValidPass(true)}
-              required
+          <FormControl fullWidth required size="small">
+            <InputLabel>password</InputLabel>
+            <OutlinedInput
+              type={showPass ? "text" : "password"}
+              {...register("password")}
+              inputProps={{
+                minLength: 6,
+                maxLength: 20,
+              }}
+              fullWidth
+              label="password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPass((prev) => !prev)}
+                    edge="end"
+                  >
+                    {showPass ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
-          </div>
+          </FormControl>
         </div>
-        <div>
-          <label>Profile image:</label>
-          <input type="file" {...register("image")} />
+        <div className="register-input-area">
+          {!isValidPass && <p>must be the same as password... </p>}
+          <FormControl fullWidth required size="small">
+            <InputLabel>confirm password</InputLabel>
+            <OutlinedInput
+              type={showConfirm ? "text" : "password"}
+              {...register("confirmPass")}
+              inputProps={{ minLength: 6, maxLength: 20 }}
+              fullWidth
+              onKeyDown={() => setIsValidPass(true)}
+              label="new password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowConfirm((prev) => !prev)}
+                    edge="end"
+                  >
+                    {showConfirm ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </div>
+        <div
+          className={`register-image-area ${
+            userImage && userImage.length ? "uploaded" : ""
+          }`}
+        >
+          <input
+            type="file"
+            onChange={(e) => setUserImage((e.target as HTMLInputElement).files)}
+          />
         </div>
         <Button value="register" style={{ marginTop: "2rem" }} />
       </form>

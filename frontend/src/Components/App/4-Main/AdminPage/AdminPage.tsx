@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import { Role } from "../../../../models/user-model";
 import service from "../../../../services/vacation-service";
 import Button from "../../../UI/Button/Button";
@@ -25,8 +32,14 @@ function Profile(): JSX.Element {
     service
       .getFollowedVacations()
       .then((res) => {
+        console.log(res);
         const newData = res.map((d: any) => {
-          return { name: d.destination, pv: d.followers, price: d.price };
+          return {
+            name: d.destination,
+            pv: d.followers,
+            price: d.price,
+            dest: d.destination,
+          };
         });
         setData(newData);
       })
@@ -37,65 +50,58 @@ function Profile(): JSX.Element {
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
-          <p className="label">{`${payload[0].value} followers`}</p>
-          <p className="label">{`price : ${payload[0].payload.price}$`}</p>
+          <p className="label-dest">{`${payload[0].payload.dest}`}</p>
+          <p>{`${payload[0].value} followers`}</p>
+          <p>{`price : ${payload[0].payload.price}$`}</p>
         </div>
       );
     }
     return null;
   };
 
-  const showVacation = (data: any) => {
-    console.log(data);
-  };
-
   return (
     <div className="AdminPage">
       <h1>Admin Reports</h1>
       {isLoading && <Spinner />}
+      <span>Followed vacations</span>
       {!isLoading &&
         (data.length ? (
-          <div className="bar-chart-container">
-            <span>Followed vacations</span>
-            <BarChart
-              width={1000}
-              height={300}
-              data={data}
-              margin={{ right: 20, left: 20, top: 20 }}
-            >
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip
-                content={CustomTooltip}
-                wrapperStyle={{
-                  fontSize: "0.8rem",
-                  padding: "0.2rem",
-                  border: "1px black solid",
-                  backgroundColor: "rgb(173, 216, 230, 0.7)",
-                  borderRadius: "10px",
-                }}
-              />
-              <Bar
-                dataKey="pv"
-                stackId="a"
-                fill="rgb(47, 47, 154)"
-                barSize={50}
-                onClick={() => showVacation(data)}
-              />
-            </BarChart>
+          <div className="bar-chart-background">
+            <ResponsiveContainer height={300} className="bar-chart-container">
+              <BarChart data={data}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  content={CustomTooltip}
+                  wrapperStyle={{
+                    fontSize: "0.8rem",
+                    padding: "0.2rem",
+                    outlineColor: "black",
+                    backgroundColor: "rgb(173, 216, 230, 0.7)",
+                    borderRadius: "10px",
+                  }}
+                />
+                <Bar
+                  dataKey="pv"
+                  stackId="a"
+                  fill="rgb(47, 47, 154)"
+                  barSize={120 / data.length}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         ) : (
           <div>No vacations to show</div>
         ))}
-      <div>
-        {isVisible ? (
-          <div className="admin-form-container">
-            <VacationForm />
-          </div>
-        ) : (
-          <Button value="add vacation" onClick={() => setIsVisible(true)} />
-        )}
-      </div>
+      {/* <div className="admin-form-container"> */}
+      {isVisible ? (
+        <div>
+          <VacationForm />
+        </div>
+      ) : (
+        <Button value="add vacation" onClick={() => setIsVisible(true)} />
+      )}
+      {/* </div> */}
     </div>
   );
 }

@@ -39,7 +39,7 @@ function VacationBox(props: Props): JSX.Element {
           setIsLoading(false);
         });
     }
-  }, [props, user]);
+  }, [params.id, props, user]);
 
   const followHandler = async () => {
     if (user.role > Role.User) {
@@ -69,7 +69,7 @@ function VacationBox(props: Props): JSX.Element {
   };
 
   return (
-    <div className="VacationBox flow">
+    <div className="VacationBox">
       {user.role === Role.Admin ? (
         !props.imgToShow && (
           <React.Fragment>
@@ -89,6 +89,7 @@ function VacationBox(props: Props): JSX.Element {
         )
       ) : (
         <Button2
+          className="vacation-follow-btn"
           style={{ backgroundColor: isFollow ? "rgb(47, 47, 154)" : "green" }}
           value={isFollow ? "unfollow" : "follow"}
           onClick={followHandler}

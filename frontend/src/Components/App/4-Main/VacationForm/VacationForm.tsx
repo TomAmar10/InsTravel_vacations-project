@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import VacationBox from "../HomePage/VacationBox/VacationBox";
 import "./VacationForm.css";
 import { modalActions, ModalType } from "../../../../store/modal-state";
+import { TextField } from "@mui/material";
 
 function VacationForm(): JSX.Element {
   const dispatch = useDispatch();
@@ -15,7 +16,8 @@ function VacationForm(): JSX.Element {
   const urlPath = "http://localhost:4500/";
   const currDate = new Date().toISOString().split("T")[0];
   const user = useSelector((state: any) => state.user.user);
-  const [returnDate, setReturnDate] = useState<string>(currDate);
+  const [userImage, setUserImage] = useState<any>();
+  const [returnDate, setReturnDate] = useState(currDate);
   const [prevVacation, setPrevVacation] = useState<VacationModel>(
     new VacationModel()
   );
@@ -34,7 +36,7 @@ function VacationForm(): JSX.Element {
       });
       return;
     }
-  }, [user]);
+  }, [params.id, reset, user]);
 
   const handleDatesMinimum = (args: SyntheticEvent) => {
     handleChanges(args, "start");
@@ -48,6 +50,7 @@ function VacationForm(): JSX.Element {
 
   const handleImageChange = (args: SyntheticEvent) => {
     const value = (args.target as HTMLInputElement).files;
+    setUserImage(value);
     if (value && value[0]) {
       const newImg = URL.createObjectURL(value[0]);
       setImgName(newImg);
@@ -78,7 +81,7 @@ function VacationForm(): JSX.Element {
       }
     });
     newV.destination = upperCaseVacation(newV.destination);
-    newV.image = newV.image[0];
+    if (userImage) newV.image = userImage[0];
     newV.prevImgName = prevVacation.image;
     const result = params.id
       ? await service.updateVacation(newV, prevVacation.id, user.token)
@@ -105,65 +108,69 @@ function VacationForm(): JSX.Element {
         <h2> {params.id ? "Edit vacation" : "Add vacation"} </h2>
         <p className="error-message">{error && error}</p>
         <div>
-          <label>* Destination:</label>
-          <input
-            type="text"
-            maxLength={15}
+          <TextField
             required
+            label="Destination"
             {...register("destination")}
-            onChange={(event) => handleChanges(event, "destination")}
+            onKeyUp={(e) => handleChanges(e, "destination")}
+            size="small"
+            fullWidth
+            inputProps={{ minLength: 2, maxLength: 15 }}
           />
         </div>
         <div>
-          <label>* Description: </label>
-          <input
-            type="text"
-            maxLength={100}
+          <TextField
             required
+            label="Description"
             {...register("description")}
-            onChange={(event) => handleChanges(event, "description")}
+            onKeyUp={(e) => handleChanges(e, "description")}
+            size="small"
+            fullWidth
+            inputProps={{ maxLength: 100 }}
           />
         </div>
         <div>
-          <label>* Start:</label>
-          <input
-            type="date"
+          <TextField
+            required
+            label="__ Start"
             {...register("start")}
-            onChange={handleDatesMinimum}
-            required
-            min={currDate}
-          />
-        </div>
-        <div>
-          <label>* Finish:</label>
-          <input
+            onChangeCapture={handleDatesMinimum}
+            size="small"
+            fullWidth
             type="date"
-            {...register("finish")}
-            onChange={(event) => handleChanges(event, "finish")}
-            required
-            min={returnDate}
+            inputProps={{ maxLength: 100, min: currDate }}
           />
         </div>
         <div>
-          <label>{!params.id && "* "}Image: </label>
+          <TextField
+            required
+            label="__ Finish"
+            {...register("finish")}
+            onChangeCapture={(e) => handleChanges(e, "finish")}
+            size="small"
+            fullWidth
+            type="date"
+            inputProps={{ maxLength: 100, min: returnDate }}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            label="Price"
+            {...register("price", { valueAsNumber: true })}
+            onKeyUp={(e) => handleChanges(e, "price")}
+            size="small"
+            fullWidth
+            type="number"
+            inputProps={{ max: 99999, min: 1 }}
+          />
+        </div>
+        <div className="vacation-image-area">
           <input
             type="file"
-            {...register("image")}
-            onChange={handleImageChange}
-            name="image"
-            required={params.id ? false : true}
             accept=".jpg, .jpeg, .png, .webp"
-          />
-        </div>
-        <div>
-          <label>* Price:</label>
-          <input
-            type="number"
-            min={1}
-            max={99999}
-            {...register("price", { valueAsNumber: true })}
-            onChange={(event) => handleChanges(event, "price")}
-            required
+            required={params.id ? false : true}
+            onChange={handleImageChange}
           />
         </div>
         <div>

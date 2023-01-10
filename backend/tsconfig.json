@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "esModuleInterop": true
+    "target": "ES6",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "commonjs"
   }
 }

@@ -1,10 +1,12 @@
 .Login {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .login-form {
   padding: 2rem 1rem 1rem 1rem;
+  width: 25rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 20px 20px 10px;
   border-radius: 10px;
   background-color: rgb(247, 246, 253);
@@ -20,7 +22,7 @@
 .close-modal-btn {
   position: absolute;
   margin-top: -1.8rem;
-  margin-left: 12.5rem;
+  margin-left: 10rem;
   width: 2.5rem;
   cursor: pointer;
 }
@@ -33,22 +35,6 @@
   margin-bottom: 0.5rem;
 }
 
-.login-form input {
-  border-radius: 5px;
-  padding: 0.5rem 1.5rem;
-  font-size: 1rem;
-  color: rgb(44, 44, 44);
-  border: 1px black solid;
-  width: 18rem;
-  margin-left: 1rem;
-  border: none;
-  outline: 0.5px black solid;
-}
-.login-form input:focus {
-  border: none;
-  outline: 1px rgb(47, 47, 154) solid;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
-}
 .login-form span {
   font-size: 0.8rem;
   margin-bottom: 1rem;
@@ -60,7 +46,31 @@
 
 .delete-form-arrow-back {
   position: absolute;
-  margin-left: -26.5rem;
+  margin-left: -23.5rem;
+  margin-top: 0.3rem;
   cursor: pointer;
   color: rgb(185, 6, 6);
+}
+
+@media only screen and (max-width: 870px) {
+  .login-form {
+    width: 24rem;
+  }
+  .delete-form-arrow-back {
+    margin-left: -20rem;
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  .delete-form-arrow-back {
+    visibility: hidden;
+  }
+  .close-modal-btn {
+    margin-left: 9rem;
+  }
+}
+@media only screen and (max-width: 380px) {
+  .close-modal-btn {
+    right: 0rem;
+  }
 }

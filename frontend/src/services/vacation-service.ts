@@ -2,17 +2,15 @@ import axios from "axios";
 import VacationModel from "../models/vacation-model";
 
 class Service {
+  private address = "http://localhost:4500/api/vacation";
+  
   public getAllVacations = async (userID: number): Promise<VacationModel[]> => {
-    const response = await axios.get(
-      "http://localhost:4500/api/vacation/all/id/" + userID
-    );
+    const response = await axios.get(`${this.address}/all/id/` + userID);
     return response.data;
   };
 
   public getFollowedVacations = async (): Promise<VacationModel[]> => {
-    const response = await axios.get(
-      "http://localhost:4500/api/vacation/all/followed"
-    );
+    const response = await axios.get(`${this.address}/all/followed`);
     return response.data;
   };
 
@@ -23,7 +21,7 @@ class Service {
   ): Promise<any> => {
     try {
       const response = await axios.get(
-        `http://localhost:4500/api/vacation/all/${userID}/${sortBy}/${order}`
+        `${this.address}/all/${userID}/${sortBy}/${order}`
       );
       return response;
     } catch (err: any) {
@@ -39,7 +37,7 @@ class Service {
   ): Promise<any> => {
     try {
       const response = await axios.get(
-        `http://localhost:4500/api/vacation/all/price/${userID}/${max}/${sortBy}/${order}`
+        `${this.address}/all/price/${userID}/${max}/${sortBy}/${order}`
       );
       return response;
     } catch (err: any) {
@@ -48,18 +46,14 @@ class Service {
   };
 
   public getVacation = async (id: number): Promise<VacationModel> => {
-    const response = await axios.get(
-      `http://localhost:4500/api/vacation/${id}`
-    );
+    const response = await axios.get(`${this.address}/${id}`);
     response.data[0].start = response.data[0].start.split("T")[0];
     response.data[0].finish = response.data[0].finish.split("T")[0];
     return response.data[0];
   };
 
   public getVacationByName = async (dest: string): Promise<VacationModel[]> => {
-    const response = await axios.get(
-      `http://localhost:4500/api/vacation/destination/${dest}`
-    );
+    const response = await axios.get(`${this.address}/destination/${dest}`);
     return response.data;
   };
 
@@ -68,16 +62,12 @@ class Service {
     token: string
   ): Promise<any> => {
     try {
-      const response = await axios.post(
-        "http://localhost:4500/api/vacation/all",
-        vacation,
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${this.address}/all`, vacation, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response;
     } catch (err: any) {
       return err.response;
@@ -86,7 +76,7 @@ class Service {
 
   public deleteVacation = async (id: number, token: string) => {
     try {
-      await axios.delete("http://localhost:4500/api/vacation/" + id, {
+      await axios.delete(`${this.address}/` + id, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -102,16 +92,12 @@ class Service {
     token: string
   ) => {
     try {
-      const response = await axios.put(
-        `http://localhost:4500/api/vacation/${id}`,
-        vacation,
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.put(`${this.address}/${id}`, vacation, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response;
     } catch (err: any) {
       return err.response;

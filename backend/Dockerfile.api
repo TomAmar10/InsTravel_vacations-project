@@ -1,0 +1,17 @@
+FROM node:16-alpine
+
+# RUN npm i -g ts-node
+# RUN npm i -g nodemon
+# RUN npm i -g @types/nodemon
+
+WORKDIR /backend
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 4500
+
+ENTRYPOINT npm start

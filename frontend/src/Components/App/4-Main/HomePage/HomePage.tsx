@@ -6,7 +6,7 @@ import VacationBox from "./VacationBox/VacationBox";
 import UserModel, { Role } from "../../../../models/user-model";
 import VacService from "../../../../services/vacation-service";
 import { Pagination, Stack } from "@mui/material";
-import SortMenu from "./SortMenu/SortMenu";
+import HeaderFilters from "./HeaderFilters/HeaderFilters";
 import HomeNavigator from "./HomeNavigator/HomeNavigator";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../UI/Spinner/Spinner";
@@ -19,6 +19,7 @@ import "./HomePage.css";
 function HomePage(): JSX.Element {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state: any) => state.modal.isVisible);
+  const category = useSelector((state: any) => state.vacations.category);
   const allVacations: VacationModel[] = useSelector(
     (state: any) => state.vacations.vacations
   );
@@ -55,14 +56,43 @@ function HomePage(): JSX.Element {
     setIsLoading(false);
   };
 
+  const toggle = async (category: string) => {
+    let sorted = await VacService.getSorted(user.id, sortBy, "ASC");
+    if (category === categories.FOLLOWED) {
+      sorted = sorted.data.filter((v: VacationModel) => v.follower_id);
+    } else sorted = sorted.data;
+    dispatch(
+      vacationActions.setVacations({
+        vacations: sorted,
+        category: category,
+      })
+    );
+  };
+
   return (
     <div className="HomePage">
-      {allVacations && <SortMenu onSort={(newS: string) => setSortBy(newS)} />}
+      {allVacations && (
+        <HeaderFilters onSort={(newS: string) => setSortBy(newS)} />
+      )}
       <HomeNavigator sortBy={sortBy} />
       <div className="pagination-area">
+        <div>
+          {category === categories.ALL ? (
+            user.role === Role.User && (
+              <Button
+                value="my vacations"
+                onClick={() => toggle(categories.FOLLOWED)}
+              />
+            )
+          ) : (
+            <Button value="Home" onClick={() => toggle(categories.ALL)} />
+          )}
+        </div>
         {allVacations && Math.ceil(allVacations.length / 10) > 1 && (
           <Stack spacing={2}>
             <Pagination
+              size="small"
+              sx={{ marginTop: "0.5rem" }}
               count={Math.ceil(allVacations.length / 10)}
               page={page}
               onChange={(event: any, value: number) => setPage(value)}

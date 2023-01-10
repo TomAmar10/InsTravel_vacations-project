@@ -4,7 +4,7 @@
   align-items: center;
   width: 70%;
   height: 50px;
-  margin-right: 12%;
+  margin-right: 18%;
   animation: open-search 1s;
 }
 
@@ -27,14 +27,14 @@
   100% {
     width: 70%;
     height: 50px;
-    margin-right: 12%;
+    margin-right: 18%;
   }
 }
 @keyframes close-search {
   0% {
     width: 70%;
     height: 50px;
-    margin-right: 12%;
+    margin-right: 18%;
   }
   100% {
     width: 0px;
@@ -54,20 +54,9 @@
   background-color: rgb(200, 219, 248);
 }
 
-@media only screen and (max-width: 1000px) {
-  .search-bar-form-open {
-    margin-right: 7%;
-  }
-  @keyframes open-search {
-    0% {
-      width: 0;
-      height: 0;
-      margin-right: 3rem;
-    }
-    100% {
-      width: 70%;
-      height: 50px;
-      margin-right: 5%;
-    }
+@media only screen and (max-width: 1100px) {
+  .search-bar-form-open,
+  .search-bar-form-close {
+    display: none;
   }
 }

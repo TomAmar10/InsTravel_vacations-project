@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.api
+    ports:
+      - 4500:4500
+    command: npm start
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    ports:
+    - 3307:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: vacation
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 12345678
+      MYSQL_ROOT_PASSWORD: 12345678
+
+
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.react
+    ports:
+      - 3000:3000
+    command: npm start
+
+
+# connection string: root@127.0.0.1:3306
