@@ -1,5 +1,5 @@
 class Config {
-  public mySQLhost = "127.0.0.1";
+  public mySQLhost = "mysql";
   public mySQLUser = "root";
   public mySQLPassword = "12345678";
   public mySqlDB = "vacation";
