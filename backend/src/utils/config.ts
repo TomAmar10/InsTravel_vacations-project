@@ -3,7 +3,7 @@ class Config {
   public mySQLUser = "root";
   public mySQLPassword = "12345678";
   public mySqlDB = "vacation";
-  public mySqlPort = 3306;
+  public mySqlPort = 3307;
   private AdminUNames = ["tomass", "adammm"];
   public checkAdmin(uname: string) {
     return this.AdminUNames.includes(uname);

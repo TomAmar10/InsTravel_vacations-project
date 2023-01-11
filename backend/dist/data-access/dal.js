@@ -10,7 +10,7 @@ const connection = mysql_1.default.createPool({
     user: config_1.default.mySQLUser,
     password: config_1.default.mySQLPassword,
     database: config_1.default.mySqlDB,
-    port: config_1.default.mySqlPort,
+    port: config_1.default.mySqlPort, //3306
 });
 const execute = (sql) => {
     return new Promise((resolve, reject) => {

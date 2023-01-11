@@ -1,6 +1,14 @@
-version: "3.7"
+version: "3.8"
 
 services:
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.react
+    ports:
+      - 3000:3000
+    command: npm start
+
   api:
     build:
       context: ./backend
@@ -9,12 +17,6 @@ services:
       - 4500:4500
     expose: 
       - 4500
-    environment:
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: '12345678'
-
     command: npm start
     depends_on:
       - mysql
@@ -22,7 +24,7 @@ services:
       - vacationet
 
   mysql:
-    image: mysql
+    image: mysql:8.0
     ports:
       - 3307:3306
     expose:
@@ -33,14 +35,6 @@ services:
       ACCEPT_EULA: "Y"
     networks:
       - vacationet
-
-  react:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.react
-    ports:
-      - 3000:3000
-    command: npm start
 
 networks:
   vacationet:

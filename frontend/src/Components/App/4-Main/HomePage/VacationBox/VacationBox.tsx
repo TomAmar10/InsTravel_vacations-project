@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import service from "../../../../../services/vacation-service";
 import Spinner from "../../../../UI/Spinner/Spinner";
 import { modalActions, ModalType } from "../../../../../store/modal-state";
+import { vacationActions } from "../../../../../store/vacation-state";
 
 interface Props {
   vacation: VacationModel;
@@ -42,30 +43,22 @@ function VacationBox(props: Props): JSX.Element {
   }, [params.id, props, user]);
 
   const followHandler = async () => {
+    let result: any = null;
     if (user.role > Role.User) {
       dispatch(modalActions.showModal(ModalType.GUEST));
       return;
     }
     if (isFollow) {
-      const result = await FollowService.deleteFollow(
-        vacation.id,
-        user.id,
-        user.token
-      );
-      if (result) {
-        dispatch(modalActions.showModal(ModalType.EXPIRED));
-        return;
-      }
+      result = await FollowService.deleteFollow(vacation.id, user);
+      dispatch(vacationActions.unFollow(vacation.id));
     }
     if (!isFollow) {
       const newFollow = { vacation_id: vacation.id, follower_id: user.id };
-      const result = await FollowService.addFollow(newFollow, user.token);
-      if (result) {
-        dispatch(modalActions.showModal(ModalType.EXPIRED));
-        return;
-      }
+      result = await FollowService.addFollow(newFollow, user.token);
+      dispatch(vacationActions.follow(newFollow));
     }
-    setIsFollow((prev) => +!prev);
+    if (result) dispatch(modalActions.showModal(ModalType.EXPIRED));
+    else setIsFollow((prev) => +!prev);
   };
 
   return (

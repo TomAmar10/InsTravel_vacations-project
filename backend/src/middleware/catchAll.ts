@@ -16,7 +16,6 @@ const catchAll = (
       .json({ status: err.status || 500, msg: err.message });
     return;
   }
-
   next();
 };
 

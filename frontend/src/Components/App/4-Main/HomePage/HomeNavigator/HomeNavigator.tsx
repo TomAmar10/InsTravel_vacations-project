@@ -1,17 +1,11 @@
-import UserModel from "../../../../../models/user-model";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import VacationModel from "../../../../../models/vacation-model";
 import { categories } from "../../../../../store/vacation-state";
 import "./HomeNavigator.css";
 
-interface Props {
-  sortBy: string;
-}
 
-function HomeNavigator(props: Props): JSX.Element {
-  const dispatch = useDispatch();
+function HomeNavigator(): JSX.Element {
   const category = useSelector((state: any) => state.vacations.category);
-  const user: UserModel = useSelector((state: any) => state.user.user);
   const vacations: VacationModel[] = useSelector(
     (state: any) => state.vacations.vacations
   );

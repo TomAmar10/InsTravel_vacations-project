@@ -10,19 +10,6 @@ import errorModel from "../models/error-model";
 const VacationRouter = Router();
 
 VacationRouter.get(
-  "/all/id/:userId",
-  async (request: Request, response: Response, next: NextFunction) => {
-    try {
-      const userId = +request.params.userId;
-      const vacations = await logic.getAllVacationsByUserId(userId);
-      response.status(200).json(vacations);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
-VacationRouter.get(
   "/all/followed",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
@@ -35,17 +22,13 @@ VacationRouter.get(
 );
 
 VacationRouter.get(
-  "/all/:userId/:sort/:order",
+  "/all/sorted/:userId/:sort/:order",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const userID = +request.params.userId;
       const sortBy = request.params.sort;
       const order = request.params.order;
-      const vacations = await logic.getSortedVacationsByUserID(
-        userID,
-        sortBy,
-        order
-      );
+      const vacations = await logic.getSortedByUserID(userID, sortBy, order);
       response.status(200).json(vacations);
     } catch (err) {
       if (typeof err !== typeof errorModel) {
@@ -69,12 +52,7 @@ VacationRouter.get(
       const sortBy = request.params.sort;
       const order = request.params.order;
 
-      const vacations = await logic.getVacationsBetweenPrices(
-        userID,
-        max,
-        sortBy,
-        order
-      );
+      const vacations = await logic.getPriceRange(userID, max, sortBy, order);
       response.status(200).json(vacations);
     } catch (err) {
       next(err);
@@ -94,12 +72,13 @@ VacationRouter.get(
     }
   }
 );
+
 VacationRouter.get(
   "/destination/:destination",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const dest = request.params.destination;
-      const vacation = await logic.getVacationByDestination(dest);
+      const vacation = await logic.getVacationByName(dest);
       response.status(200).json(vacation);
     } catch (err) {
       next(err);
@@ -107,33 +86,35 @@ VacationRouter.get(
   }
 );
 
-// VacationRouter.post(
-//   "/all",
-//   verifyRole(Role.Admin),
-//   async (request: Request, response: Response, next: NextFunction) => {
-//     try {
-//       const vacation: VacationModel = request.body;
-//       const file: any = request.files?.image;
-//       if (file) {
-//         const extension = file.name.substring(
-//           file.name.lastIndexOf(".") // .jpg
-//         );
-//         const imageName = uuid() + extension;
-//         const uploadPath = "./src/uploads/" + imageName;
-//         vacation.image = imageName;
-//         await file.mv(uploadPath);
-//       }
-//       vacation.followers = 0;
-//       const addedVacation = await logic.addVacation(vacation);
-//       response.status(201).json(addedVacation);
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
+VacationRouter.post(
+  "/add",
+  verifyRole(1),
+  // verifyRole(Role.Admin),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacation: VacationModel = request.body;
+      const file: any = request.files?.image;
+      if (file) {
+        const extension = file.name.substring(
+          file.name.lastIndexOf(".") // .jpg
+        );
+        const imageName = uuid() + extension;
+        const uploadPath = "./src/uploads/" + imageName;
+        vacation.image = imageName;
+        await file.mv(uploadPath);
+      }
+      vacation.followers = 0;
+      const addedVacation = await logic.addVacation(vacation);
+      response.status(201).json(addedVacation);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 VacationRouter.delete(
-  "/:id",
+  "/delete/:id",
+  verifyRole(1),
   // verifyRole(Role.Admin),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
@@ -148,25 +129,26 @@ VacationRouter.delete(
   }
 );
 
-// VacationRouter.put(
-//   "/:id",
-//   verifyRole(Role.Admin),
-//   async (request: Request, response: Response, next: NextFunction) => {
-//     try {
-//       const prevImgName = request.body.prevImgName;
-//       const vacation: VacationModel = request.body;
-//       const file: any = request.files?.image;
-//       vacation.id = +request.params.id;
-//       const newVacation = await logic.updateVacation(
-//         vacation,
-//         file,
-//         prevImgName
-//       );
-//       response.status(200).json(newVacation);
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
+VacationRouter.put(
+  "/update/:id",
+  verifyRole(1),
+  // verifyRole(Role.Admin),
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const prevImgName = request.body.prevImgName;
+      const vacation: VacationModel = request.body;
+      const file: any = request.files?.image;
+      vacation.id = +request.params.id;
+      const newVacation = await logic.updateVacation(
+        vacation,
+        file,
+        prevImgName
+      );
+      response.status(200).json(newVacation);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export default VacationRouter;

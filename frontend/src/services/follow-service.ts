@@ -1,16 +1,18 @@
 import axios from "axios";
 import FollowModel from "../models/follow-model";
+import UserModel from "../models/user-model";
+import config from "../utils/config";
 
 class Service {
   private address = "http://localhost:4500/api/follow";
   public getAllFollows = async (): Promise<FollowModel[]> => {
-    const response = await axios.get(`${this.address}/all`);
+    const response = await axios.get(`${config.followAPI}/all`);
     return response.data;
   };
 
   public addFollow = async (follow: {}, token: string): Promise<any> => {
     try {
-      await axios.post(`${this.address}/all`, follow, {
+      await axios.post(`${config.followAPI}/all`, follow, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -20,15 +22,11 @@ class Service {
     }
   };
 
-  public deleteFollow = async (
-    vacationId: number,
-    followerId: number,
-    token: string
-  ) => {
+  public deleteFollow = async (vacationId: number, user: UserModel) => {
     try {
-      await axios.delete(`${this.address}/id/${vacationId}/${followerId}`, {
+      await axios.delete(`${config.followAPI}/id/${vacationId}/${user.id}`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${user.token}`,
         },
       });
     } catch (err: any) {

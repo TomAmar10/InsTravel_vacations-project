@@ -13,7 +13,7 @@ import fileUpload from "express-fileupload";
 dotenv.config();
 const server = express();
 
-// mySql_init();
+mySql_init();
 const corsOptions = {
   exposedHeaders: "authorization",
 };

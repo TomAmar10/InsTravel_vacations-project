@@ -20,23 +20,23 @@ function HomePage(): JSX.Element {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state: any) => state.modal.isVisible);
   const category = useSelector((state: any) => state.vacations.category);
-  const allVacations: VacationModel[] = useSelector(
+  const vacations: VacationModel[] = useSelector(
     (state: any) => state.vacations.vacations
   );
   const user: UserModel = useSelector((state: any) => state.user.user);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [sortBy, setSortBy] = useState<string>("start");
+  const sortBy = useSelector((state: any) => state.vacations.sortBy);
+  const order = useSelector((state: any) => state.vacations.order);
   const [error, setError] = useState<string>();
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     setError(undefined);
-    showAll().then(() => {
-      if (user.id < 1) {
-        const userToken = localStorage.getItem("userToken");
-        if (userToken) dispatch(userActions.login(userToken));
-      }
-    });
+    showAll();
+    if (user.id < 1) {
+      const userToken = localStorage.getItem("userToken");
+      if (userToken) dispatch(userActions.login(userToken));
+    }
   }, [user]);
 
   const showAll = async () => {
@@ -48,6 +48,8 @@ function HomePage(): JSX.Element {
           category: categories.ALL,
         })
       );
+      setIsLoading(false);
+      return result.data;
     } else {
       user.role === Role.Admin
         ? setError(result.data.msg)
@@ -57,7 +59,8 @@ function HomePage(): JSX.Element {
   };
 
   const toggle = async (category: string) => {
-    let sorted = await VacService.getSorted(user.id, sortBy, "ASC");
+    setPage(1);
+    let sorted = await VacService.getSorted(user.id, sortBy, order);
     if (category === categories.FOLLOWED) {
       sorted = sorted.data.filter((v: VacationModel) => v.follower_id);
     } else sorted = sorted.data;
@@ -71,10 +74,8 @@ function HomePage(): JSX.Element {
 
   return (
     <div className="HomePage">
-      {allVacations && (
-        <HeaderFilters onSort={(newS: string) => setSortBy(newS)} />
-      )}
-      <HomeNavigator sortBy={sortBy} />
+      <HeaderFilters />
+      <HomeNavigator />
       <div className="pagination-area">
         <div>
           {category === categories.ALL ? (
@@ -88,12 +89,12 @@ function HomePage(): JSX.Element {
             <Button value="Home" onClick={() => toggle(categories.ALL)} />
           )}
         </div>
-        {allVacations && Math.ceil(allVacations.length / 10) > 1 && (
+        {vacations && Math.ceil(vacations.length / 10) > 1 && (
           <Stack spacing={2}>
             <Pagination
               size="small"
               sx={{ marginTop: "0.5rem" }}
-              count={Math.ceil(allVacations.length / 10)}
+              count={Math.ceil(vacations.length / 10)}
               page={page}
               onChange={(event: any, value: number) => setPage(value)}
             />
@@ -103,8 +104,8 @@ function HomePage(): JSX.Element {
       <div className="homepage-main-area flow">
         <div className="vacations-container">
           {isLoading && <Spinner />}
-          {!isLoading && allVacations.length > 0 ? (
-            allVacations
+          {!isLoading && vacations && vacations.length > 0 ? (
+            vacations
               ?.slice((page - 1) * 10, page * 10)
               ?.map((vacation) => (
                 <VacationBox vacation={vacation} key={vacation.id} />
@@ -125,39 +126,3 @@ function HomePage(): JSX.Element {
 }
 
 export default HomePage;
-
-// const handleSort = (event: any, newSort: string) => {
-//   switch (newSort) {
-//     case "start":
-//       dispatch(
-//         vacationActions.setVacations(
-//           allVacations.sort((a, b) =>
-//             a.start > b.start ? 1 : b.start > a.start ? -1 : 0
-//           )
-//         )
-//       );
-
-//       break;
-//     case "price":
-//       dispatch(
-//         vacationActions.setVacations(
-//           allVacations.sort((a, b) =>
-//             a.price > b.price ? 1 : b.price > a.price ? -1 : 0
-//           )
-//         )
-//       );
-//       break;
-//     case "destination":
-//       dispatch(
-//         vacationActions.setVacations(
-//           allVacations.sort((a, b) =>
-//             a.destination > b.destination
-//               ? 1
-//               : b.destination > a.destination
-//               ? -1
-//               : 0
-//           )
-//         )
-//       );
-//   }
-// };

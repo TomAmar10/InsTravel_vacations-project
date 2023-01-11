@@ -1,100 +1,83 @@
 import { IconButton, InputBase, Paper, Slider } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
+import SortItem from "./SortItem/SortItem";
 import VacationModel from "../../../../../models/vacation-model";
-import VacService from "../../../../../services/vacation-service";
+import { sorts } from "../../../../../store/vacation-state";
+import service from "../../../../../services/vacation-service";
 import {
   categories,
-  vacationActions as actions,
+  vacationActions,
 } from "../../../../../store/vacation-state";
-import SortItem from "./SortItem/SortItem";
-import service from "../../../../../services/vacation-service";
 import "./HeaderFilters.css";
 
-export enum SortOptions {
-  start = "start",
-  finish = "finish",
-  destination = "destination",
-  price = "price",
-}
-
-interface Props {
-  onSort: Function;
-}
-
-function HeaderFilters(props: Props): JSX.Element {
+function HeaderFilters(): JSX.Element {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
-  const currCategory = useSelector((state: any) => state.vacations.category);
-  const [order, setOrder] = useState<string>("ASC");
-  const [sortBy, setSortBy] = useState<string>("start");
+  const category = useSelector((state: any) => state.vacations.category);
+  const sortBy = useSelector((state: any) => state.vacations.sortBy);
+  const order = useSelector((state: any) => state.vacations.order);
   const [userPrice, setPrice] = useState<any>(10000);
   const [userSearch, setUserSearch] = useState<string>("");
+  const myVacations: VacationModel[] = useSelector(
+    (state: any) => state.vacations.vacations
+  );
 
-  const sortVacations = async (newSortBy = sortBy, newOrder = order) => {
-    props.onSort(newSortBy);
-    setSortBy(newSortBy);
-    const sorted = await VacService.getSorted(user.id, newSortBy, newOrder);
-    if (currCategory === "followed") {
-      dispatch(
-        actions.setVacations({
-          vacations: sorted.data.filter((v: VacationModel) => v.follower_id),
-          category: categories.FOLLOWED,
-        })
-      );
+  useEffect(() => {
+    setPrice(10000);
+  }, [category]);
+
+  const sortVacations = async (
+    newS = sortBy,
+    newO = order,
+    _vacations = myVacations
+  ) => {
+    dispatch(vacationActions.setSort(newS));
+    if (!_vacations.length) {
+      dispatch(vacationActions.setVacations([]));
       return;
     }
-    dispatch(
-      actions.setVacations({
-        vacations: sorted.data,
-        category: currCategory,
-      })
-    );
+    Object.keys(_vacations[0]).forEach((key: any) => {
+      if (key === newS) {
+        const vacations = [..._vacations].sort((a: any, b: any) => {
+          if (newO === "ASC")
+            return a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0;
+          else return a[key] < b[key] ? 1 : b[key] < a[key] ? -1 : 0;
+        });
+        dispatch(vacationActions.setVacations({ vacations, category }));
+      }
+    });
   };
 
   const changeOrder = async () => {
     const newOrder = order === "ASC" ? "DESC" : "ASC";
     sortVacations(sortBy, newOrder);
-    setOrder(newOrder);
+    dispatch(vacationActions.setOrder(newOrder));
   };
 
   const mouseUp = async () => {
-    const res = await VacService.getMaxPrice(user.id, userPrice, sortBy, order);
-    if (res.status === 200) {
-      dispatch(
-        actions.setVacations({ vacations: res.data, category: currCategory })
-      );
-      return;
+    const result = await service.getMaxPrice(user.id, userPrice, sortBy, order);
+    let vacations: VacationModel[] = result.data;
+    if (category === categories.FOLLOWED) {
+      vacations = vacations.filter((v: VacationModel) => v.follower_id);
     }
-    dispatch(actions.setVacations({ vacations: [], category: currCategory }));
-  };
-
-  const changeInput = (event: SyntheticEvent) => {
-    const value = (event.target as HTMLInputElement).value;
-    setUserSearch(value);
+    sortVacations(sortBy, order, vacations);
   };
 
   const submitSearch = async (e: any) => {
     e.preventDefault();
     const userInput = upperCaseVacation(userSearch);
-    const result = await service.getVacationByName(userInput);
-    if (!result.length) return;
-    const searched = result.filter((v) => v.destination === userInput);
+    const vacations = await service.getVacationByName(userInput);
     dispatch(
-      actions.setVacations({
-        vacations: searched,
-        category: categories.SEARCHED,
-      })
+      vacationActions.setVacations({ vacations, category: categories.SEARCHED })
     );
     setUserSearch("");
   };
 
   const upperCaseVacation = (v: string) => {
-    return v
-      .split(" ")
-      .map((u) => u[0].toUpperCase() + u.slice(1))
-      .join(" ");
+    const newV = v.split(" ").map((u) => u[0].toUpperCase() + u.slice(1));
+    return newV.join(" ");
   };
 
   return (
@@ -107,7 +90,9 @@ function HeaderFilters(props: Props): JSX.Element {
         >
           <InputBase
             inputProps={{ maxLength: "20" }}
-            onChange={changeInput}
+            onChange={(e) =>
+              setUserSearch((e.target as HTMLInputElement).value)
+            }
             value={userSearch}
             className="filters-search-input"
             placeholder="find your vacation..."
@@ -139,7 +124,7 @@ function HeaderFilters(props: Props): JSX.Element {
             className="sort-items-select"
             onChange={(e) => sortVacations(e.target.value)}
           >
-            {Object.keys(SortOptions).map((s) => (
+            {Object.values(sorts).map((s) => (
               <SortItem key={s} sortBy={s} />
             ))}
           </select>
