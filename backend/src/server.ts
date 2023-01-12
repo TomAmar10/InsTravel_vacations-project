@@ -1,7 +1,8 @@
 import cors from "cors";
 import dotenv from "dotenv";
+import mySql_init from './utils/optional_init'
 import express, { Request, Response, NextFunction } from "express";
-import errorModel from "./models/error-model";
+import errorModel from "./models/errorModel";
 import VacationRouter from "./controllers/vacation-controller";
 import UserRouter from "./controllers/user-controller";
 import AuthRouter from "./controllers/auth-controller";

@@ -40,6 +40,13 @@
 .edit-form-arrow-back:hover {
   font-size: 3.1rem;
 }
+.uname_invalid{
+  position: absolute;
+  color: red;
+  font-size: 0.8rem;
+  margin-top: -0.8rem;
+  margin-left: 6rem;
+}
 
 @media only screen and (max-width: 870px) {
   .profile-edit-form {

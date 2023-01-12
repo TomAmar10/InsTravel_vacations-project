@@ -1,10 +1,9 @@
 import jwt from "jsonwebtoken";
-// import UserModel from "../models/user-Model";
+import UserModel from "../models/userModel";
 import dotenv from "dotenv";
 dotenv.config();
 
-// const getToken = (user: UserModel) => {
-const getToken = (user: any) => {
+const getToken = (user: UserModel) => {
   const token = jwt.sign({ user }, process.env.ACCESS_SECRET_TOKEN, {
     expiresIn: process.env.NODE_ENV === "production" ? "1h" : "5h",
   });
@@ -34,8 +33,7 @@ const verifyToken = (authHeader: string): Promise<boolean> => {
   });
 };
 
-// const getUserFromToken = (authHeader: string): UserModel => {
-const getUserFromToken = (authHeader: string): any => {
+const getUserFromToken = (authHeader: string): UserModel => {
   const token = authHeader.split(" ")[1];
   const payload = jwt.decode(token);
   const user = payload as any;

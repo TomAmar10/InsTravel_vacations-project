@@ -1,11 +1,11 @@
 import { UploadedFile } from "express-fileupload";
 import { OkPacket } from "mysql";
-import CredentialsModel from "../models/credentials-model";
-import UserModel, { Role } from "../models/user-model";
+import CredentialsModel from "../models/credentialsModel";
+import UserModel, { Role } from "../models/userModel";
 import execute from "../data-access/dal";
 import jwtHelper from "../utils/jwt-helper";
 import { v4 as uuid } from "uuid";
-import errorModel from "../models/error-model";
+import errorModel from "../models/errorModel";
 import safeDelete from "../utils/safe-delete";
 import dotenv from "dotenv";
 dotenv.config();

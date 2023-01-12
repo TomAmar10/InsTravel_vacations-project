@@ -1,11 +1,10 @@
 import { Router, Request, Response, NextFunction } from "express";
-import VacationModel from "../models/vacation-model";
+import VacationModel from "../models/vacationModel";
 import logic from "../logic/vacation-logic";
 import safeDelete from "../utils/safe-delete";
 import { v4 as uuid } from "uuid";
 import verifyRole from "../middleware/verify-role";
-import errorModel from "../models/error-model";
-// import { Role } from "../models/user-Model";
+import { Role } from "../models/userModel";
 
 const VacationRouter = Router();
 
@@ -44,7 +43,6 @@ VacationRouter.get(
       const max = +request.params.max;
       const sortBy = request.params.sort;
       const order = request.params.order;
-
       const vacations = await logic.getPriceRange(userID, max, sortBy, order);
       response.status(200).json(vacations);
     } catch (err) {
@@ -81,8 +79,7 @@ VacationRouter.get(
 
 VacationRouter.post(
   "/add",
-  verifyRole(1),
-  // verifyRole(Role.Admin),
+  verifyRole(Role.Admin),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const vacation: VacationModel = request.body;
@@ -107,8 +104,7 @@ VacationRouter.post(
 
 VacationRouter.delete(
   "/delete/:id",
-  verifyRole(1),
-  // verifyRole(Role.Admin),
+  verifyRole(Role.Admin),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const id = +request.params.id;
@@ -124,8 +120,7 @@ VacationRouter.delete(
 
 VacationRouter.put(
   "/update/:id",
-  verifyRole(1),
-  // verifyRole(Role.Admin),
+  verifyRole(Role.Admin),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const prevImgName = request.body.prevImgName;

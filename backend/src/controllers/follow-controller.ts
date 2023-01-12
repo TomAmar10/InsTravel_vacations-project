@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-// import { Role } from "../models/user-Model";
+import { Role } from "../models/userModel";
 import logic from "../logic/follow-logic";
 import verifyRole from "../middleware/verify-role";
 
@@ -19,7 +19,7 @@ FollowRouter.get(
 
 FollowRouter.post(
   "/all",
-  // verifyRole(Role.User),
+  verifyRole(Role.User),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const addedFollow = await logic.addFollow(request.body);
@@ -32,7 +32,7 @@ FollowRouter.post(
 
 FollowRouter.delete(
   "/id/:vacationId/:userId",
-  // verifyRole(Role.User),
+  verifyRole(Role.User),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const userId = +request.params.userId;

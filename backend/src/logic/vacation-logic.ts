@@ -1,7 +1,7 @@
 import execute from "../data-access/dal";
 import { OkPacket } from "mysql";
-import errorModel from "../models/error-model";
-import VacationModel from "../models/vacation-model";
+import errorModel from "../models/errorModel";
+import VacationModel from "../models/vacationModel";
 import { v4 as uuid } from "uuid";
 import safeDelete from "../utils/safe-delete";
 

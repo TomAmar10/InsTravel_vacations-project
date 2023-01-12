@@ -1,3 +1,11 @@
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserModel from "../../../../models/user-model";
@@ -8,16 +16,8 @@ import { userActions } from "../../../../store/user-state";
 import Button from "../../../UI/Button/Button";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { modalActions, ModalType } from "../../../../store/modal-state";
-import {
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
-import "./ProfileEdit.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import "./ProfileEdit.css";
 
 function ProfileEdit(): JSX.Element {
   interface UserEdit extends UserModel {
@@ -30,8 +30,7 @@ function ProfileEdit(): JSX.Element {
   const { register, handleSubmit, reset } = useForm<UserEdit>();
   const [allUsernames, setAllUsernames] = useState<{}[]>([]);
   const [isValidUsername, setIsValidUsername] = useState<boolean>(true);
-  const [isValidPass, setIsValidPass] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>();
   const navigate = useNavigate();
   useEffect(() => {
     reset({ ...user, password: "", prevPass: "" });
@@ -83,7 +82,7 @@ function ProfileEdit(): JSX.Element {
           className="edit-form-arrow-back"
         />
         <h3>Edit your profile</h3>
-        {error.length > 0 && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div>
           <TextField
             required
@@ -105,12 +104,16 @@ function ProfileEdit(): JSX.Element {
           />
         </div>
         <div>
+          {!isValidUsername && (
+            <span className="uname_invalid">already exist...</span>
+          )}
           <TextField
             required
             label="user name"
             size="small"
             fullWidth
             {...register("user_name")}
+            onKeyPress={() => setIsValidUsername(true)}
             inputProps={{ minLength: 2, maxLength: 20 }}
           />
         </div>

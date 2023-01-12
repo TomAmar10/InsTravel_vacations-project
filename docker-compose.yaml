@@ -43,5 +43,3 @@ services:
 networks:
   vacationet:
     driver: bridge
-# connection string: root@127.0.0.1:3306
-

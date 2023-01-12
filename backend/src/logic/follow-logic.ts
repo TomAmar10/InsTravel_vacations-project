@@ -1,7 +1,6 @@
 import execute from "../data-access/dal";
 import { OkPacket } from "mysql";
-import errorModel from "../models/error-model";
-import FollowModel from "../models/follow-model";
+import FollowModel from "../models/followModel";
 
 const getAllFollows = async () => {
   const sql = `SELECT COUNT(follower_id) as followers, vacation_id

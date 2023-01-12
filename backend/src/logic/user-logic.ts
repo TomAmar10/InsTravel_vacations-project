@@ -1,7 +1,6 @@
 import execute from "../data-access/dal";
-import { OkPacket } from "mysql";
-import errorModel from "../models/error-model";
-import UserModel from "../models/user-model";
+import errorModel from "../models/errorModel";
+import UserModel from "../models/userModel";
 
 const getAllUsers = async (): Promise<UserModel[]> => {
   const sql = `SELECT * FROM users`;

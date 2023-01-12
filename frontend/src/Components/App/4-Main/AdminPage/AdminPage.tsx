@@ -28,11 +28,9 @@ function Profile(): JSX.Element {
       navigate("/homepage");
       return;
     }
-
     service
       .getFollowedVacations()
       .then((res) => {
-        console.log(res);
         const newData = res.map((d: any) => {
           return {
             name: d.destination,
@@ -44,7 +42,7 @@ function Profile(): JSX.Element {
         setData(newData);
       })
       .then((res) => setIsLoading(false));
-  }, []);
+  }, [navigate, user.id, user.role]);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import errorModel from "../models/error-model";
+import errorModel from "../models/errorModel";
 import logger from "../utils/log-helper";
 
 const catchAll = (

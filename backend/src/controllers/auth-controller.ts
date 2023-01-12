@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import logic from "../logic/auth-logic";
-// import UserModel, { Role } from "../models/user-model";
+import UserModel, { Role } from "../models/userModel";
 import verifyRole from "../middleware/verify-role";
 
 const AuthRouter = Router();
@@ -10,8 +10,7 @@ AuthRouter.post(
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       delete request.body.confirmPass;
-      // const user: UserModel = request.body;
-      const user = request.body;
+      const user: UserModel = request.body;
       const file: any = request.files?.image;
       const token = await logic.register(user, file);
       response.set("Authorization", token);
@@ -37,7 +36,7 @@ AuthRouter.post(
 
 AuthRouter.post(
   "/delete",
-  // verifyRole(Role.User),
+  verifyRole(Role.User),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const details = request.body;
@@ -51,7 +50,7 @@ AuthRouter.post(
 
 AuthRouter.put(
   "/update/:id",
-  // verifyRole(Role.User),
+  verifyRole(Role.User),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const prevPass = request.body.prevPass;
@@ -67,13 +66,12 @@ AuthRouter.put(
 
 AuthRouter.put(
   "/changeprofile/:id",
-  // verifyRole(Role.User),
+  verifyRole(Role.User),
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const prevName = request.body.prevImgName;
       delete request.body.prevImgName;
-      // const user = new UserModel(request.body);
-      const user = request.body;
+      const user = new UserModel(request.body);
       const file: any = request.files?.image;
       const token = await logic.updateUserProfile(user, file, prevName);
       response.set("Authorization", token);
