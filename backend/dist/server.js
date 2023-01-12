@@ -12,11 +12,10 @@ const user_controller_1 = __importDefault(require("./controllers/user-controller
 const auth_controller_1 = __importDefault(require("./controllers/auth-controller"));
 const follow_controller_1 = __importDefault(require("./controllers/follow-controller"));
 const catchAll_1 = __importDefault(require("./middleware/catchAll"));
-const init_1 = __importDefault(require("./utils/init"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 dotenv_1.default.config();
 const server = (0, express_1.default)();
-(0, init_1.default)();
+// ADMIN USER NAMES CAN BE SEEN IN ---> .env FILE
 const corsOptions = {
     exposedHeaders: "authorization",
 };
@@ -32,4 +31,9 @@ server.use("*", (Request, response, next) => {
     next(new error_model_1.default(404, "route not found!"));
 });
 server.use(catchAll_1.default);
+console.log(process.env.MY_SQL_HOST);
+console.log(process.env.MY_SQL_USER);
+console.log(process.env.MY_SQL_PASSWORD);
+console.log(process.env.MY_SQL_DB);
+console.log(process.env.MY_SQL_PORT);
 server.listen(process.env.PORT, () => console.log("listening on port " + process.env.PORT));

@@ -7,7 +7,8 @@ import jwtHelper from "../utils/jwt-helper";
 import { v4 as uuid } from "uuid";
 import errorModel from "../models/error-model";
 import safeDelete from "../utils/safe-delete";
-import config from "../utils/config";
+import dotenv from "dotenv";
+dotenv.config();
 
 const register = async (
   user: UserModel,
@@ -23,7 +24,8 @@ const register = async (
     await file.mv(uploadPath);
   }
   if (!file) user.image = "profile.png";
-  user.role = config.checkAdmin(user.user_name) ? Role.Admin : Role.User;
+  const isAdmin = process.env.ADMIN_USERNAMES.includes(user.user_name);
+  user.role = isAdmin ? Role.Admin : Role.User;
   const sql = `
       INSERT INTO users
       Values (DEFAULT , '${user.first_name}', '${user.last_name}', '${user.user_name}', '${user.password}', '${user.image}', ${user.role})
@@ -33,7 +35,7 @@ const register = async (
     throw new errorModel(400, "invalid details, please try again");
 
   user.id = result.insertId;
-  user.password = "";
+  delete user.password;
   const token = jwtHelper.getToken(user);
   return token;
 };
@@ -43,9 +45,9 @@ const login = async (userCred: CredentialsModel): Promise<string> => {
   const user = await execute(sql);
   if (!user[0]) throw new errorModel(401, "invalid details, please try again");
 
-  user[0].password = "";
+  delete user[0].password;
+  delete user[0].token;
   const token = jwtHelper.getToken(user[0]);
-
   return token;
 };
 
@@ -95,19 +97,12 @@ const updateUserProfile = async (
   const sql = `UPDATE users SET image = '${user.image}' WHERE id = ${user.id}`;
   const result = await execute(sql);
   if (!result.affectedRows) throw new errorModel(404, "something went wrong");
+  const userToToken = { ...user };
+  delete userToToken.token;
+  delete userToToken.password;
   const token = jwtHelper.getToken(user);
   return token;
 };
-
-// const refreshToken = async (user: UserModel, token: string) => {
-//   if (!allRefreshTokens.includes(token))
-//     throw new errorModel(403, "refresh token is not valid!");
-
-//   allRefreshTokens = allRefreshTokens.filter((t) => t !== token);
-
-//   const newToken = jwtHelper.getRefreshToken(user);
-//   return newToken;
-// };
 
 export default {
   login,

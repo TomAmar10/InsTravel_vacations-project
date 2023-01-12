@@ -1,13 +1,21 @@
-version: "3.8"
+version: "3.7"
 
 services:
-  react:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.react
+  mysql:
+    image: mysql:8.0
     ports:
-      - 3000:3000
-    command: npm start
+      - 3307:3306
+    volumes:
+      - ./sqlScripts.sql:/docker-entrypoint-initdb.d/1.sql
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_USERNAME: "root"
+      MYSQL_ROOT_PASSWORD: "12345678"
+      MYSQL_DATABASE: "vacation"
+      ACCEPT_EULA: "Y"
+    networks:
+      - vacationet
 
   api:
     build:
@@ -15,26 +23,22 @@ services:
       dockerfile: Dockerfile.api
     ports:
       - 4500:4500
-    expose: 
+    expose:
       - 4500
     command: npm start
     depends_on:
-      - mysql
+      mysql:
+        condition: service_started
     networks:
       - vacationet
 
-  mysql:
-    image: mysql:8.0
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.react
     ports:
-      - 3307:3306
-    expose:
-      - 3306
-    environment:
-      MYSQL_ROOT_USERNAME: "root"
-      MYSQL_ROOT_PASSWORD: "12345678"
-      ACCEPT_EULA: "Y"
-    networks:
-      - vacationet
+      - 3000:3000
+    command: npm start
 
 networks:
   vacationet:

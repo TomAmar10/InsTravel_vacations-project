@@ -8,14 +8,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 // const getToken = (user: UserModel) => {
 const getToken = (user) => {
     const token = jsonwebtoken_1.default.sign({ user }, process.env.ACCESS_SECRET_TOKEN, {
-        expiresIn: process.env.NODE_ENV === "production" ? "1d" : "1h",
+        expiresIn: process.env.NODE_ENV === "production" ? "1h" : "5h",
     });
     return token;
-};
-// const getRefreshToken = (user: UserModel) => {
-const getRefreshToken = (user) => {
-    const refreshToken = jsonwebtoken_1.default.sign({ user }, process.env.REFRESH_SECRET_TOKEN);
-    return refreshToken;
 };
 const verifyToken = (authHeader) => {
     return new Promise((resolve) => {
@@ -44,4 +39,4 @@ const getUserFromToken = (authHeader) => {
     const user = payload;
     return user;
 };
-exports.default = { getToken, verifyToken, getUserFromToken, getRefreshToken };
+exports.default = { getToken, verifyToken, getUserFromToken };

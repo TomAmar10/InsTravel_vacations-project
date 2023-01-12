@@ -13,21 +13,21 @@ const getFollowedVacations = async (): Promise<VacationModel[]> => {
   ON follows.vacation_id = vacations.id
   GROUP BY vacation_id`;
   const vacations = await execute(sql);
-  if (!vacations.length) throw new errorModel(404, "no vacations found");
+  if (!vacations.length) throw new errorModel(204, "no vacations found");
   return vacations;
 };
 
 const getVacation = async (id: number): Promise<VacationModel[]> => {
   const sql = `SELECT * FROM vacations WHERE id = ${id}`;
   const vacation = await execute(sql);
-  if (!vacation) throw new errorModel(404, "no vacation found");
+  if (!vacation) throw new errorModel(204, "no vacation found");
   return vacation;
 };
 
 const getVacationByName = async (dest: string): Promise<VacationModel[]> => {
   const sql = `SELECT * FROM vacations WHERE destination = '${dest}'`;
   const vacation = await execute(sql);
-  if (!vacation) throw new errorModel(404, "no vacation found");
+  if (!vacation) throw new errorModel(204, "no vacation found");
   return vacation;
 };
 
@@ -42,7 +42,7 @@ const getSortedByUserID = async (
   right join vacations on vacations.id = user_vacations.vacation_id
   ORDER BY vacations.${sortBy} ${order}`;
   const vacations = await execute(sql);
-  if (!vacations.length) throw new errorModel(404, "no vacations found");
+  if (!vacations.length) throw new errorModel(204, "no vacations found");
   return vacations;
 };
 
@@ -59,7 +59,7 @@ const getPriceRange = async (
   WHERE price BETWEEN 0 AND ${max}
   ORDER BY vacations.${sortBy} ${order}`;
   const vacations = await execute(sql);
-  if (!vacations.length) throw new errorModel(404, "no vacations found");
+  if (!vacations.length) throw new errorModel(204, "no vacations found");
   return vacations;
 };
 
@@ -81,7 +81,7 @@ const addVacation = async (vacation: VacationModel) => {
 `;
   const result: OkPacket = await execute(sql);
   if (!result.insertId)
-    throw new errorModel(404, "wrong details, please try again later");
+    throw new errorModel(404, "wrong details, please try again");
   vacation.id = result.insertId;
   return vacation;
 };

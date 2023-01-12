@@ -31,13 +31,6 @@ VacationRouter.get(
       const vacations = await logic.getSortedByUserID(userID, sortBy, order);
       response.status(200).json(vacations);
     } catch (err) {
-      if (typeof err !== typeof errorModel) {
-        next({
-          status: 404,
-          message: "something went wrong, please try again later",
-        });
-        return;
-      }
       next(err);
     }
   }

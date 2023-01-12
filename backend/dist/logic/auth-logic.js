@@ -18,7 +18,8 @@ const jwt_helper_1 = __importDefault(require("../utils/jwt-helper"));
 const uuid_1 = require("uuid");
 const error_model_1 = __importDefault(require("../models/error-model"));
 const safe_delete_1 = __importDefault(require("../utils/safe-delete"));
-const config_1 = __importDefault(require("../utils/config"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const register = (user, file) => __awaiter(void 0, void 0, void 0, function* () {
     if (file) {
         const extension = file.name.substring(file.name.lastIndexOf(".") // .jpg
@@ -30,7 +31,9 @@ const register = (user, file) => __awaiter(void 0, void 0, void 0, function* () 
     }
     if (!file)
         user.image = "profile.png";
-    user.role = config_1.default.checkAdmin(user.user_name) ? user_model_1.Role.Admin : user_model_1.Role.User;
+    console.log(process.env.ADMIN_USERNAMES);
+    const isAdmin = process.env.ADMIN_USERNAMES.includes(user.user_name);
+    user.role = isAdmin ? user_model_1.Role.Admin : user_model_1.Role.User;
     const sql = `
       INSERT INTO users
       Values (DEFAULT , '${user.first_name}', '${user.last_name}', '${user.user_name}', '${user.password}', '${user.image}', ${user.role})
@@ -39,7 +42,7 @@ const register = (user, file) => __awaiter(void 0, void 0, void 0, function* () 
     if (!result.insertId)
         throw new error_model_1.default(400, "invalid details, please try again");
     user.id = result.insertId;
-    user.password = "";
+    delete user.password;
     const token = jwt_helper_1.default.getToken(user);
     return token;
 });
@@ -48,7 +51,8 @@ const login = (userCred) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, dal_1.default)(sql);
     if (!user[0])
         throw new error_model_1.default(401, "invalid details, please try again");
-    user[0].password = "";
+    delete user[0].password;
+    delete user[0].token;
     const token = jwt_helper_1.default.getToken(user[0]);
     return token;
 });
@@ -94,16 +98,12 @@ const updateUserProfile = (user, file, prevName) => __awaiter(void 0, void 0, vo
     const result = yield (0, dal_1.default)(sql);
     if (!result.affectedRows)
         throw new error_model_1.default(404, "something went wrong");
+    const userToToken = Object.assign({}, user);
+    delete userToToken.token;
+    delete userToToken.password;
     const token = jwt_helper_1.default.getToken(user);
     return token;
 });
-// const refreshToken = async (user: UserModel, token: string) => {
-//   if (!allRefreshTokens.includes(token))
-//     throw new errorModel(403, "refresh token is not valid!");
-//   allRefreshTokens = allRefreshTokens.filter((t) => t !== token);
-//   const newToken = jwtHelper.getRefreshToken(user);
-//   return newToken;
-// };
 exports.default = {
     login,
     register,

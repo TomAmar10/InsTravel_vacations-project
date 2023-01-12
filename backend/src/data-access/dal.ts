@@ -1,18 +1,20 @@
-import mysql from "mysql";
-import config from "../utils/config";
+import mysql from "mysql2";
+import dotenv from "dotenv";
+dotenv.config();
 
 const connection = mysql.createPool({
-  host: config.mySQLhost, // 127.0.0.1
-  user: config.mySQLUser, // root
-  password: config.mySQLPassword, // 12345678
-  database: config.mySqlDB, //vacation
-  port: config.mySqlPort, //3306
+  host: process.env.MY_SQL_HOST,
+  user: process.env.MY_SQL_USER,
+  password: process.env.MY_SQL_PASSWORD,
+  database: process.env.MY_SQL_DB,
+  port: +process.env.MY_SQL_PORT,
 });
 
 const execute = (sql: string): Promise<any> => {
   return new Promise<any>((resolve, reject) => {
     connection.query(sql, (err, result) => {
       if (err) {
+        console.log(err);
         reject(err);
         return;
       }

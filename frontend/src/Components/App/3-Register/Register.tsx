@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserModel from "../../../models/user-model";
 import { useForm } from "react-hook-form";
@@ -39,11 +39,15 @@ function Register(): JSX.Element {
       navigate("/homepage");
       return;
     }
-    service
-      .getAllUsernames()
-      .then((res) => setAllUsernames(res.data))
-      .catch((err) => setError("something went wrong, please try again later"));
-  }, []);
+    service.getAllUsernames().then((res) => {
+      if (res.status === 200) {
+        setAllUsernames(res.data);
+        return;
+      }
+      if (res.status === 204) return;
+      setError("something went wrong, please try again later");
+    });
+  }, [navigate, setFocus, user]);
 
   const submitForm = (newUser: registerUser) => {
     if (error) return;

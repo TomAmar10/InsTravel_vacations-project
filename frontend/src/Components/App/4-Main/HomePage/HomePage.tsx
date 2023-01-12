@@ -37,23 +37,31 @@ function HomePage(): JSX.Element {
       const userToken = localStorage.getItem("userToken");
       if (userToken) dispatch(userActions.login(userToken));
     }
-  }, [user]);
+  }, [dispatch, user]);
 
   const showAll = async () => {
     const result = await VacService.getSorted(user.id, "start", "ASC");
-    if (result.status === 200) {
-      dispatch(
-        vacationActions.setVacations({
-          vacations: result.data,
-          category: categories.ALL,
-        })
-      );
+    if (!result) {
+      setError("something went wrong, please try again later");
       setIsLoading(false);
-      return result.data;
-    } else {
-      user.role === Role.Admin
-        ? setError(result.data.msg)
-        : setError("something went wrong, please try again later");
+      return;
+    }
+    switch (result.status) {
+      case 204:
+        setError("No vacations to show");
+        break;
+      case 200:
+        dispatch(
+          vacationActions.setVacations({
+            vacations: result.data,
+            category: categories.ALL,
+          })
+        );
+        break;
+      default:
+        user.role === Role.Admin
+          ? setError(result.data.msg)
+          : setError("something went wrong, please try again later");
     }
     setIsLoading(false);
   };
@@ -111,7 +119,7 @@ function HomePage(): JSX.Element {
                 <VacationBox vacation={vacation} key={vacation.id} />
               ))
           ) : (
-            <div>{error ? error : "no vacations to show"}</div>
+            <div>{error && error}</div>
           )}
         </div>
       </div>

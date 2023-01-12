@@ -17,7 +17,6 @@ const vacation_logic_1 = __importDefault(require("../logic/vacation-logic"));
 const safe_delete_1 = __importDefault(require("../utils/safe-delete"));
 const uuid_1 = require("uuid");
 const verify_role_1 = __importDefault(require("../middleware/verify-role"));
-const error_model_1 = __importDefault(require("../models/error-model"));
 // import { Role } from "../models/user-Model";
 const VacationRouter = (0, express_1.Router)();
 VacationRouter.get("/all/followed", (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,13 +37,6 @@ VacationRouter.get("/all/sorted/:userId/:sort/:order", (request, response, next)
         response.status(200).json(vacations);
     }
     catch (err) {
-        if (typeof err !== typeof error_model_1.default) {
-            next({
-                status: 404,
-                message: "something went wrong, please try again later",
-            });
-            return;
-        }
         next(err);
     }
 }));

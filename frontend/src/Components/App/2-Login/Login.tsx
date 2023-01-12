@@ -64,19 +64,19 @@ function Login(props: Props): JSX.Element {
     props.deletePage ? await deleteAccount(details) : loginUser(details);
   };
 
-  const loginUser = (details: UserModel) => {
-    service
-      .login(details)
-      .then((res) => {
-        if (res.msg) throw new Error(res.msg);
-        dispatch(userActions.login(res));
-        dispatch(modalActions.hideModal());
-        navigate("/homepage");
-        return;
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+  const loginUser = async (details: UserModel) => {
+    const result = await service.login(details);
+    if (result.status === 201) {
+      dispatch(userActions.login(result.headers.authorization));
+      dispatch(modalActions.hideModal());
+      navigate("/homepage");
+      return;
+    }
+    if (result.status === 401) {
+      setError(result.msg);
+      return;
+    }
+    setError("something went wrong, please try again later");
   };
   const deleteAccount = async (details: UserModel) => {
     details.image = user.image;

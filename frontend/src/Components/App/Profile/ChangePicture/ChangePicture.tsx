@@ -78,6 +78,7 @@ function ChangePicture(): JSX.Element {
               src={require("../../../../images/delete.png")}
               className="remove-profile-btn"
               onClick={removeImage}
+              alt=""
             />
           )}
         </div>

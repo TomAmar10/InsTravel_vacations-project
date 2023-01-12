@@ -17,7 +17,7 @@ class Service {
       const response = await axios.get(`${config.userAPI}/all/usernames`);
       return response;
     } catch (err: any) {
-      return err.response.data.msg;
+      return err.response;
     }
   };
 
@@ -33,7 +33,7 @@ class Service {
   public login = async (userCred: UserModel): Promise<any> => {
     try {
       const response = await axios.post(`${config.authAPI}/login`, userCred);
-      return response.headers.authorization;
+      return response;
     } catch (err: any) {
       return err.response.data;
     }

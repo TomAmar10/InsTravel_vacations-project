@@ -25,21 +25,21 @@ const getFollowedVacations = () => __awaiter(void 0, void 0, void 0, function* (
   GROUP BY vacation_id`;
     const vacations = yield (0, dal_1.default)(sql);
     if (!vacations.length)
-        throw new error_model_1.default(404, "no vacations found");
+        throw new error_model_1.default(204, "no vacations found");
     return vacations;
 });
 const getVacation = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT * FROM vacations WHERE id = ${id}`;
     const vacation = yield (0, dal_1.default)(sql);
     if (!vacation)
-        throw new error_model_1.default(404, "no vacation found");
+        throw new error_model_1.default(204, "no vacation found");
     return vacation;
 });
 const getVacationByName = (dest) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT * FROM vacations WHERE destination = '${dest}'`;
     const vacation = yield (0, dal_1.default)(sql);
     if (!vacation)
-        throw new error_model_1.default(404, "no vacation found");
+        throw new error_model_1.default(204, "no vacation found");
     return vacation;
 });
 const getSortedByUserID = (userID, sortBy, order) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,7 +50,7 @@ const getSortedByUserID = (userID, sortBy, order) => __awaiter(void 0, void 0, v
   ORDER BY vacations.${sortBy} ${order}`;
     const vacations = yield (0, dal_1.default)(sql);
     if (!vacations.length)
-        throw new error_model_1.default(404, "no vacations found");
+        throw new error_model_1.default(204, "no vacations found");
     return vacations;
 });
 const getPriceRange = (userID, max, sortBy, order) => __awaiter(void 0, void 0, void 0, function* () {
@@ -62,7 +62,7 @@ const getPriceRange = (userID, max, sortBy, order) => __awaiter(void 0, void 0, 
   ORDER BY vacations.${sortBy} ${order}`;
     const vacations = yield (0, dal_1.default)(sql);
     if (!vacations.length)
-        throw new error_model_1.default(404, "no vacations found");
+        throw new error_model_1.default(204, "no vacations found");
     return vacations;
 });
 const addDay = (date) => {
@@ -78,7 +78,7 @@ const addVacation = (vacation) => __awaiter(void 0, void 0, void 0, function* ()
 `;
     const result = yield (0, dal_1.default)(sql);
     if (!result.insertId)
-        throw new error_model_1.default(404, "wrong details, please try again later");
+        throw new error_model_1.default(404, "wrong details, please try again");
     vacation.id = result.insertId;
     return vacation;
 });

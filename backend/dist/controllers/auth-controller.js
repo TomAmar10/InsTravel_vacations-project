@@ -84,19 +84,4 @@ AuthRouter.put("/changeprofile/:id",
         next(err);
     }
 }));
-// AuthRouter.post(
-//   "/refresh-token",
-//   verifyRole(Role.User),
-//   async (request: Request, response: Response, next: NextFunction) => {
-//     try {
-//       const user = request.body;
-//       const authHeader = request.header("authorization");
-//       const token = await logic.refreshToken(user, authHeader);
-//       response.set("Authorization", token);
-//       response.status(201).json("profile edited successfully!");
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
 exports.default = AuthRouter;

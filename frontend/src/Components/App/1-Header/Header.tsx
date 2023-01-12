@@ -39,6 +39,7 @@ function Header(): JSX.Element {
   };
 
   const logoClick = async () => {
+    navigate("/homepage");
     const result = await service.getSorted(user.id, "start", "ASC");
     if (result.status === 200) {
       dispatch(
@@ -51,7 +52,6 @@ function Header(): JSX.Element {
       return;
     }
     dispatch(actions.setVacations({ vacations: [], category: categories.ALL }));
-    navigate("/homepage");
   };
 
   return (

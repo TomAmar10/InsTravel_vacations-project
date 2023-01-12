@@ -7,13 +7,13 @@ import UserRouter from "./controllers/user-controller";
 import AuthRouter from "./controllers/auth-controller";
 import FollowRouter from "./controllers/follow-controller";
 import catchAll from "./middleware/catchAll";
-import mySql_init from "./utils/init";
 import fileUpload from "express-fileupload";
 
 dotenv.config();
 const server = express();
 
-mySql_init();
+// ADMIN USER NAMES CAN BE SEEN IN ---> .env FILE
+
 const corsOptions = {
   exposedHeaders: "authorization",
 };

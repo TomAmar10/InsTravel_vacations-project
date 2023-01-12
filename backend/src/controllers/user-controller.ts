@@ -11,6 +11,7 @@ UserRouter.get(
       // const users: UserModel[] = await logic.getAllUsers();
       const users = await logic.getAllUsers();
       response.status(200).json(users);
+      // response.status(200).json({hello:'hello'});
     } catch (err) {
       next(err);
     }
