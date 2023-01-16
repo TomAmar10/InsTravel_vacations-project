@@ -9,11 +9,12 @@ import VacationBox from "../HomePage/VacationBox/VacationBox";
 import "./VacationForm.css";
 import { modalActions, ModalType } from "../../../../store/modal-state";
 import { TextField } from "@mui/material";
+import config from "../../../../utils/config";
 
 function VacationForm(): JSX.Element {
   const dispatch = useDispatch();
   const defaultImage = require("../../../../images/vacation-bg.jpg");
-  const urlPath = "http://localhost:4500/";
+  const urlPath = `${config.address}/`;
   const currDate = new Date().toISOString().split("T")[0];
   const user = useSelector((state: any) => state.user.user);
   const [userImage, setUserImage] = useState<any>();

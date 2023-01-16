@@ -7,9 +7,10 @@ import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import service from "../../../../services/user-service";
 import { modalActions, ModalType } from "../../../../store/modal-state";
 import "./ChangePicture.css";
+import config from "../../../../utils/config";
 
 function ChangePicture(): JSX.Element {
-  const urlPath = "http://localhost:4500/";
+  const urlPath = `${config.address}/`;
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);

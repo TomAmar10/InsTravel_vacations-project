@@ -13,8 +13,10 @@ var auth_controller_1 = __importDefault(require("./controllers/auth-controller")
 var follow_controller_1 = __importDefault(require("./controllers/follow-controller"));
 var catchAll_1 = __importDefault(require("./middleware/catchAll"));
 var express_fileupload_1 = __importDefault(require("express-fileupload"));
+var config_1 = require("./utils/config");
 dotenv_1.default.config();
 var server = (0, express_1.default)();
+// mySql_init();
 // ADMIN USER NAMES CAN BE SEEN IN ---> .env FILE
 var corsOptions = {
     exposedHeaders: "authorization",
@@ -31,6 +33,6 @@ server.use("*", function (Request, response, next) {
     next(new errorModel_1.default(404, "route not found!"));
 });
 server.use(catchAll_1.default);
-server.listen(process.env.PORT, function () {
-    return console.log("listening on port " + process.env.PORT);
+server.listen(config_1.config.server.port, function () {
+    return console.log("listening on port " + config_1.config.server.port);
 });

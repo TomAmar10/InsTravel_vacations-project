@@ -6,7 +6,7 @@
   CREATE TABLE IF NOT EXISTS follows (id INT NOT NULL AUTO_INCREMENT, vacation_id INT NOT NULL, follower_id INT NOT NULL, PRIMARY KEY (id));
 
 -- admin user for beggining:
-  INSERT INTO users Values (DEFAULT , 'tom', 'amar', 'tomass', 'tom123', 'profile.png', 1);
+  INSERT INTO users Values (DEFAULT , 'Tom', 'Amar', 'tomass', 'tom123', 'profile.png', 1);
 
   INSERT INTO vacations Values (DEFAULT , 'Milano', 'A beautiful place in Italy', 
   'ba3cb2aa-cfcd-4fa1-b2da-fbcb9821d683.jpeg','2023-04-04', '2023-04-10', 2100, 0);
@@ -23,5 +23,5 @@
   INSERT INTO vacations Values (DEFAULT , 'Budapset', 'Capital of Hungary', 
   'f7fdb473-a68f-46a8-9e75-ad00b6d409a1.jpg','2023-06-01', '2023-06-07', 3400, 0);
   
-  INSERT INTO vacations Values (DEFAULT , 'Paris', 'Capital of Hungary', 
+  INSERT INTO vacations Values (DEFAULT , 'Paris', 'Capital of France', 
   'fbd19f58-949a-4d6a-a551-e9fe5578d65f.jpg','2023-05-13', '2023-05-21', 4600, 0);

@@ -31,15 +31,17 @@ function Profile(): JSX.Element {
     service
       .getFollowedVacations()
       .then((res) => {
-        const newData = res.map((d: any) => {
-          return {
-            name: d.destination,
-            pv: d.followers,
-            price: d.price,
-            dest: d.destination,
-          };
-        });
-        setData(newData);
+        if (res.status === 200) {
+          const newData = res.data.map((d: any) => {
+            return {
+              name: d.destination,
+              pv: d.followers,
+              price: d.price,
+              dest: d.destination,
+            };
+          });
+          setData(newData);
+        }
       })
       .then((res) => setIsLoading(false));
   }, [navigate, user.id, user.role]);
@@ -61,10 +63,10 @@ function Profile(): JSX.Element {
     <div className="AdminPage">
       <h1>Admin Reports</h1>
       {isLoading && <Spinner />}
-      <span>Followed vacations</span>
       {!isLoading &&
         (data.length ? (
           <div className="bar-chart-background">
+            <span>Followed vacations</span>
             <ResponsiveContainer height={300} className="bar-chart-container">
               <BarChart data={data}>
                 <XAxis dataKey="name" />
@@ -91,7 +93,6 @@ function Profile(): JSX.Element {
         ) : (
           <div>No vacations to show</div>
         ))}
-      {/* <div className="admin-form-container"> */}
       {isVisible ? (
         <div>
           <VacationForm />
@@ -99,7 +100,6 @@ function Profile(): JSX.Element {
       ) : (
         <Button value="add vacation" onClick={() => setIsVisible(true)} />
       )}
-      {/* </div> */}
     </div>
   );
 }

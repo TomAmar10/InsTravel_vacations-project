@@ -1,4 +1,4 @@
-# Vacations Tracker by Tom Amar
+# InsTravel - Vacations Tracker by Tom Amar
 
 This application is a vacation tracking and discovery tool made by,
 built as a project for improving skills and study.
@@ -30,6 +30,9 @@ installed once the docker-compose up command has been executed.
 - you can execute it by executing this function in the server.ts ---> mySql_init(),
 - it will create the required tables for the database, they will be empty,
 - so start by registering an admin user (admin usernames are in the .env file)
+
+### InsTravel link
+https://instravel.netlify.app/
 
 <div>
 <img src="https://user-images.githubusercontent.com/94956589/212173337-3778b51d-b382-41cb-ba5c-ace63ca41a02.png" alt="" width="300" height="250">

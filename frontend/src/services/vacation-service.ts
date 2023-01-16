@@ -3,9 +3,15 @@ import VacationModel from "../models/vacation-model";
 import config from "../utils/config";
 
 class Service {
-  public getFollowedVacations = async (): Promise<VacationModel[]> => {
-    const response = await axios.get(`${config.vacationsAPI}/all/followed`);
-    return response.data;
+  public getFollowedVacations = async (): Promise<any> => {
+    try {
+      const response: VacationModel[] = await axios.get(
+        `${config.vacationsAPI}/all/followed`
+      );
+      return response;
+    } catch (err: any) {
+      return err.response;
+    }
   };
 
   public getSorted = async (

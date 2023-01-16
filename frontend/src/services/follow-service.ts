@@ -4,7 +4,6 @@ import UserModel from "../models/user-model";
 import config from "../utils/config";
 
 class Service {
-  private address = "http://localhost:4500/api/follow";
   public getAllFollows = async (): Promise<FollowModel[]> => {
     const response = await axios.get(`${config.followAPI}/all`);
     return response.data;

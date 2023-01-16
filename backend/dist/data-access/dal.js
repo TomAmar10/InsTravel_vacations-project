@@ -7,7 +7,7 @@ var mysql2_1 = __importDefault(require("mysql2"));
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var connection = mysql2_1.default.createPool({
-    host: process.env.MY_SQL_HOST,
+    host: process.env.NODE_ENV === 'production' ? process.env.MY_SQL_HOST : 'localhost',
     user: process.env.MY_SQL_USER,
     password: process.env.MY_SQL_PASSWORD,
     database: process.env.MY_SQL_DB,

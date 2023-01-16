@@ -129,7 +129,7 @@ function Login(props: Props): JSX.Element {
             size="small"
             fullWidth
             {...register("user_name")}
-            inputProps={{ minLength: 2, maxLength: 20 }}
+            inputProps={{ minLength: 4, maxLength: 20 }}
           />
         </div>
         <div>

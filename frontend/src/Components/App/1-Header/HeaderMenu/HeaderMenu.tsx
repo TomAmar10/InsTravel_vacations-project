@@ -7,17 +7,18 @@ import { useDispatch } from "react-redux";
 import { userActions } from "../../../../store/user-state";
 import { vacationActions } from "../../../../store/vacation-state";
 import "./HeaderMenu.css";
+import config from "../../../../utils/config";
 
 function HeaderMenu(props: any) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState<boolean>();
   const [currProfile, setCurrProfile] = useState<string>(
-    "http://localhost:4500/profile.png"
+    `${config.address}/profile.png`
   );
 
   React.useEffect(() => {
-    setCurrProfile(`http://localhost:4500/${props.user.image}`);
+    setCurrProfile(`${config.address}/${props.user.image}`);
   }, [props]);
 
   const logOutClicked = () => {

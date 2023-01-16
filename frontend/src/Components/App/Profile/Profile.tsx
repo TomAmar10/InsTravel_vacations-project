@@ -7,16 +7,17 @@ import ProfileEdit from "./ProfileEdit/ProfileEdit";
 import ChangePicture from "./ChangePicture/ChangePicture";
 import "./Profile.css";
 import Login from "../2-Login/Login";
+import config from "../../../utils/config";
 
 function Profile(): JSX.Element {
   const [currImage, setCurrImage] = useState<string>(
-    "http://localhost:4500/profile.png"
+    `${config.address}/profile.png`
   );
   const user: UserModel = useSelector((state: any) => state.user.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCurrImage(`http://localhost:4500/${user.image}`);
+    setCurrImage(`${config.address}/${user.image}`);
   }, [user]);
 
   return (

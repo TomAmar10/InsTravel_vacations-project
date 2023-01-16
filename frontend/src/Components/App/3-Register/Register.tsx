@@ -113,7 +113,7 @@ function Register(): JSX.Element {
             fullWidth
             {...register("user_name")}
             onFocus={() => setIsValidUsername(true)}
-            inputProps={{ minLength: 2, maxLength: 20 }}
+            inputProps={{ minLength: 4, maxLength: 20 }}
           />
         </div>
         <div>
