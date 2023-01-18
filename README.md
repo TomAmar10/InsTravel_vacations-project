@@ -18,6 +18,7 @@ Every user/admin has a his own profile after register, and can delete / edit his
 To run the project, both server and client sides, and mySql database as well,
 all you need to do is docker-compose up, and it will run automatically,
 with a ready schema and tables, an admin, and a few vacations in it.
+To log in as admin - look at the sqlScripts.sql file.
 
 Dependencies for the project are located in the package.json file,
 installed once the docker-compose up command has been executed.
@@ -32,7 +33,7 @@ installed once the docker-compose up command has been executed.
 - so start by registering an admin user (admin usernames are in the .env file)
 
 ### InsTravel link
-https://instravel.netlify.app/
+https://instravel.netlify.app
 
 <div>
 <img src="https://user-images.githubusercontent.com/94956589/212173337-3778b51d-b382-41cb-ba5c-ace63ca41a02.png" alt="" width="300" height="250">

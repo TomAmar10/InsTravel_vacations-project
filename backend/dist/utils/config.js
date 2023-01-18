@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-var port = process.env.PORT || 1337;
+var port = process.env.PORT || 10000;
 exports.config = {
     server: {
         port: port,
