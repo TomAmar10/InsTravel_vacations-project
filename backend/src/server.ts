@@ -14,7 +14,8 @@ import { config } from "./utils/config";
 dotenv.config();
 const server = express();
 
-// mySql_init();
+// execute only for init
+mySql_init();
 
 // ADMIN USER NAMES CAN BE SEEN IN ---> .env FILE
 

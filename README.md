@@ -9,7 +9,8 @@ and a MySQL database managed with a Docker Compose file.
 
 ## How To
 
-As admin, you can add / edit vacations and see some information about them.
+As admin, you can add / edit vacations and see some information about them,
+logging in with - username: 'admin', password: 'admin123'.
 As user, you can follow any vacation from the list and see it in "my vacations".
 Every user/admin has a his own profile after register, and can delete / edit his profile.
 
@@ -30,7 +31,7 @@ installed once the docker-compose up command has been executed.
 - After that, there is a optional_init file in the utils,
 - you can execute it by executing this function in the server.ts ---> mySql_init(),
 - it will create the required tables for the database, they will be empty,
-- so start by registering an admin user (admin usernames are in the .env file)
+- so start by registering an admin.
 
 ### InsTravel link
 https://instravel.netlify.app
