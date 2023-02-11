@@ -1,36 +1,36 @@
 # InsTravel - Vacations Tracker by Tom Amar
 
-This application is a vacation tracking and discovery tool made by,
-built as a project for improving skills and study.
-It allows users to browse and follow vacations around the world.
-The application includes an API server built with Node.js, Express, and TypeScript,
-a client built with React and TypeScript with Redux,
-and a MySQL database managed with a Docker Compose file.
+This application is a vacation tracking and discovery tool made by, < /br>
+built as a project for improving skills and study. < /br>
+It allows users to browse and follow vacations around the world. < /br>
+The application includes an API server built with Node.js, Express, and TypeScript, < /br>
+a client built with React and TypeScript with Redux, < /br>
+and a MySQL database managed with a Docker Compose file. < /br>
 
 ## How To
 
-As admin, you can add / edit vacations and see some information about them,
-logging in with - username: 'admin', password: 'admin123'.
-As user, you can follow any vacation from the list and see it in "my vacations".
+As admin, you can add / edit vacations and see some information about them, < /br>
+logging in with - username: 'admin', password: 'admin123'. < /br>
+As user, you can follow any vacation from the list and see it in "my vacations". < /br>
 Every user/admin has a his own profile after register, and can delete / edit his profile.
 
 ## Installation
 
-To run the project, both server and client sides, and mySql database as well,
-all you need to do is docker-compose up, and it will run automatically,
-with a ready schema and tables, an admin, and a few vacations in it.
-To log in as admin - look at the sqlScripts.sql file.
+To run the project, both server and client sides, and mySql database as well, < /br>
+all you need to do is docker-compose up, and it will run automatically, < /br>
+with a ready schema and tables, an admin, and a few vacations in it. < /br>
+To log in as admin - look at the sqlScripts.sql file. < /br>
 
-Dependencies for the project are located in the package.json file,
-installed once the docker-compose up command has been executed.
+Dependencies for the project are located in the package.json file, < /br>
+installed once the docker-compose up command has been executed. < /br>
 
 ### Local Machine
 
-- To run the application on your local machine, first make yourself a schema in mySql called 'vacation'.
-- Then, change the .env field of 'MY_SQL_HOST' to -> "localhost"
-- After that, there is a optional_init file in the utils,
-- you can execute it by executing this function in the server.ts ---> mySql_init(),
-- it will create the required tables for the database, they will be empty,
+- To run the application on your local machine, first make yourself a schema in mySql called 'vacation'. < /br>
+- Then, change the .env field of 'MY_SQL_HOST' to -> "localhost" < /br>
+- After that, there is a optional_init file in the utils, < /br>
+- you can execute it by executing this function in the server.ts ---> mySql_init(), < /br>
+- it will create the required tables for the database, they will be empty, < /br>
 - so start by registering an admin.
 
 ### InsTravel link
