@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var cors_1 = __importDefault(require("cors"));
 var dotenv_1 = __importDefault(require("dotenv"));
-var optional_init_1 = __importDefault(require("./utils/optional_init"));
 var express_1 = __importDefault(require("express"));
 var errorModel_1 = __importDefault(require("./models/errorModel"));
 var vacation_controller_1 = __importDefault(require("./controllers/vacation-controller"));
@@ -18,7 +17,7 @@ var config_1 = require("./utils/config");
 dotenv_1.default.config();
 var server = (0, express_1.default)();
 // execute only for init
-(0, optional_init_1.default)();
+// mySql_init();
 // ADMIN USER NAMES CAN BE SEEN IN ---> .env FILE
 var corsOptions = {
     exposedHeaders: "authorization",

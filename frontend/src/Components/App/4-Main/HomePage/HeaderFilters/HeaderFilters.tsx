@@ -50,6 +50,16 @@ function HeaderFilters(): JSX.Element {
     });
   };
 
+  const changePrice = (value: number) => {
+    setPrice(value);
+    dispatch(
+      vacationActions.setVacations({
+        vacations: myVacations,
+        category: categories.ALL,
+      })
+    );
+  };
+
   const changeOrder = async () => {
     const newOrder = order === "ASC" ? "DESC" : "ASC";
     sortVacations(sortBy, newOrder);
@@ -114,7 +124,9 @@ function HeaderFilters(): JSX.Element {
             min={0}
             max={10000}
             valueLabelDisplay="auto"
-            onChange={async (e: Event, val: number | number[]) => setPrice(val)}
+            onChange={async (e: Event, val: number | number[]) =>
+              changePrice(+val)
+            }
             onMouseUp={mouseUp}
           />
           <span>10k$</span>

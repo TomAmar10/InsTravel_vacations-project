@@ -31,7 +31,7 @@ const userSlice = createSlice({
       state.user = user;
     },
     logout(state) {
-      localStorage.clear();
+      localStorage.removeItem("userToken");
       state.user = {
         id: 0,
         first_name: "",

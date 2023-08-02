@@ -178,4 +178,23 @@ AuthRouter.put("/changeprofile/:id", (0, verify_role_1.default)(userModel_1.Role
         }
     });
 }); });
+AuthRouter.delete("/admin-delete-all-data", function (request, response, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var err_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, auth_logic_1.default.deleteAllData()];
+            case 1:
+                _a.sent();
+                response.sendStatus(204);
+                return [3 /*break*/, 3];
+            case 2:
+                err_6 = _a.sent();
+                next(err_6);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = AuthRouter;

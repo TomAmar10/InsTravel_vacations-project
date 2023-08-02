@@ -184,10 +184,32 @@ var updateUserProfile = function (user, file, prevName) { return __awaiter(void 
         }
     });
 }); };
+var deleteAllData = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var sql1, result1, sql2, result2, sql3, result3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                sql1 = "DELETE FROM users";
+                return [4 /*yield*/, (0, dal_1.default)(sql1)];
+            case 1:
+                result1 = _a.sent();
+                sql2 = "DELETE FROM vacations";
+                return [4 /*yield*/, (0, dal_1.default)(sql2)];
+            case 2:
+                result2 = _a.sent();
+                sql3 = "DELETE FROM follows";
+                return [4 /*yield*/, (0, dal_1.default)(sql3)];
+            case 3:
+                result3 = _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
 exports.default = {
     login: login,
     register: register,
     deleteUser: deleteUser,
     updateFullUser: updateFullUser,
     updateUserProfile: updateUserProfile,
+    deleteAllData: deleteAllData,
 };

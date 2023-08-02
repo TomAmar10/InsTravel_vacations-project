@@ -82,4 +82,16 @@ AuthRouter.put(
   }
 );
 
+AuthRouter.delete(
+  "/admin-delete-all-data",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      await logic.deleteAllData();
+      response.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 export default AuthRouter;

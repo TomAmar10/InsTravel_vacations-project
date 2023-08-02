@@ -24,6 +24,8 @@ const deleteFollow = async (followerId: number, vacationId: number) => {
   await execute(sql);
 };
 
+
+
 export default {
   getAllFollows,
   addFollow,

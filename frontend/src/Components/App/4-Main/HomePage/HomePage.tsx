@@ -90,6 +90,12 @@ function HomePage(): JSX.Element {
     <div className="HomePage">
       <HeaderFilters />
       <HomeNavigator />
+      {isLoading && (
+        <span className="loading-msg">
+          Please wait 15-30 seconds for initial loading (app is hosted for
+          free).
+        </span>
+      )}
       <div className="pagination-area">
         <div>
           {category === categories.ALL ? (
